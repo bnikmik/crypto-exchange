@@ -1,0 +1,173 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+paths:
+  /customers/{id}:
+    get:
+      tags:
+      - Пользователи
+      summary: Получить пользователя по id
+      operationId: findCustomerById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Пользователь не найден.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+      security:
+      - Bearer Authentication: []
+    put:
+      tags:
+      - Пользователи
+      summary: Обновить пользователя по id
+      operationId: updateCustomerById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDTO'
+        required: true
+      responses:
+        "400":
+          description: Введены неверные параметры.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Пользователь не найден.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+      security:
+      - Bearer Authentication: []
+    delete:
+      tags:
+      - Пользователи
+      summary: Удалить пользователя по id
+      operationId: deleteCustomerById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Пользователь не найден.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+      security:
+      - Bearer Authentication: []
+  /customers:
+    get:
+      tags:
+      - Пользователи
+      summary: Получить всех пользоваталей
+      operationId: findAllCustomers
+      responses:
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDTO'
+      security:
+      - Bearer Authentication: []
+    post:
+      tags:
+      - Пользователи
+      summary: Создать нового пользователя
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDTO'
+        required: true
+      responses:
+        "400":
+          description: Введены неверные параметры.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+      security:
+      - Bearer Authentication: []
+components:
+  schemas:
+    CustomerDTO:
+      required:
+      - avatarLink
+      - phoneNumber
+      - rolesList
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        rolesList:
+          type: array
+          items:
+            type: string
+            enum:
+            - TECHNICAL
+            - PHYSICAL
+            - USER
+            - MODERATOR
+            - ADMIN
+            - MARKET
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        avatarLink:
+          type: string
+          format: url
+        verified:
+          type: boolean
+  securitySchemes:
+    Bearer Authentication:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
