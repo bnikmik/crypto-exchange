@@ -16,6 +16,7 @@
 
   <modules>
     <module>customer</module>
+    <module>account</module>
   </modules>
 
   <name>crypto-exchange</name>
