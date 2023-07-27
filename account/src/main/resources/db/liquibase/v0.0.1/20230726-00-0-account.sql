@@ -3,7 +3,7 @@
 
 create table account
 (
-    id             uuid not null primary key,
-    currency_type  varchar(255),
-    balance        numeric
+    id       uuid not null primary key,
+    currency varchar(255),
+    balance  numeric
 );

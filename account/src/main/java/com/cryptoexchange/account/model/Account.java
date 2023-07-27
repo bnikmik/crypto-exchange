@@ -13,7 +13,8 @@ public class Account {
     @Id
     @GeneratedValue
     private UUID id;
-    private String currencyType;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
     private BigDecimal balance;
     @OneToMany(mappedBy = "account",cascade = CascadeType.REMOVE)
     private List<AccountTransaction> transactionList;
