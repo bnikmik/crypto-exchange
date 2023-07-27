@@ -1,7 +1,10 @@
 package com.cryptoexchange.account.service.impl;
 
 import com.cryptoexchange.account.dto.AccountTransactionDTO;
+import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.model.AccountTransaction;
+import com.cryptoexchange.account.model.TransactionType;
+import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.repository.AccountTransactionRepository;
 import com.cryptoexchange.account.service.AccountTransactionService;
 import lombok.AllArgsConstructor;
@@ -20,6 +23,7 @@ import static com.cryptoexchange.account.mapper.AccountTransactionMapper.INSTANC
 public class AccountTransactionServiceImpl implements AccountTransactionService {
 
     private final AccountTransactionRepository repository;
+    private final AccountRepository accountRepository;
 
     @Override
     public AccountTransactionDTO findAccountTransactionById(UUID id) {
@@ -34,14 +38,24 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     @Transactional
-    public UUID deposit(UUID accountId, BigDecimal value) {
-        return null;
+    public UUID deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
+        Account account = accountRepository.findById(accountId).orElseThrow();
+        AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
+        accountTransaction.setType(TransactionType.DEPOSIT);
+        accountTransaction.setAccount(account);
+        repository.save(accountTransaction);
+        return accountTransaction.getId();
     }
 
     @Override
     @Transactional
-    public UUID withdrawal(UUID accountId, BigDecimal value) {
-        return null;
+    public UUID withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
+        Account account = accountRepository.findById(accountId).orElseThrow();
+        AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
+        accountTransaction.setType(TransactionType.WITHDRAWAL);
+        accountTransaction.setAccount(account);
+        repository.save(accountTransaction);
+        return accountTransaction.getId();
     }
 
     @Override

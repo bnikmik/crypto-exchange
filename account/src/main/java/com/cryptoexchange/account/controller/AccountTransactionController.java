@@ -1,12 +1,12 @@
 package com.cryptoexchange.account.controller;
 
+import com.cryptoexchange.account.dto.AccountTransactionDTO;
 import com.cryptoexchange.account.service.AccountTransactionService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -28,13 +28,13 @@ public class AccountTransactionController {
     }
 
     @PostMapping("/deposit/{accountId}")
-    public ResponseEntity<?> deposit(@PathVariable UUID accountId, @RequestParam BigDecimal value) {
-        return ResponseEntity.ok(service.deposit(accountId, value));
+    public ResponseEntity<?> deposit(@PathVariable UUID accountId, @RequestBody AccountTransactionDTO accountTransactionDTO) {
+        return ResponseEntity.ok(service.deposit(accountId, accountTransactionDTO));
     }
 
     @PostMapping("/withdrawal/{accountId}")
-    public ResponseEntity<?> withdrawal(@PathVariable UUID accountId, @RequestParam BigDecimal value) {
-        return ResponseEntity.ok(service.withdrawal(accountId, value));
+    public ResponseEntity<?> withdrawal(@PathVariable UUID accountId, @RequestBody AccountTransactionDTO accountTransactionDTO) {
+        return ResponseEntity.ok(service.withdrawal(accountId, accountTransactionDTO));
     }
 
     @GetMapping("/balance/{accountId}")

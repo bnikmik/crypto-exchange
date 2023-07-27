@@ -12,9 +12,9 @@ public interface AccountTransactionService {
 
     List<AccountTransactionDTO> findAllAccountTransactions();
 
-    UUID deposit(UUID accountId, BigDecimal value);
+    UUID deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO);
 
-    UUID withdrawal(UUID accountId, BigDecimal value);
+    UUID withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO);
 
     BigDecimal getBalance(UUID accountId);
 }
