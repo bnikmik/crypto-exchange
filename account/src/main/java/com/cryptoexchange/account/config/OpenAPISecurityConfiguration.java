@@ -1,4 +1,4 @@
-package com.example.config;
+package com.cryptoexchange.account.config;
 
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

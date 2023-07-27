@@ -1,4 +1,4 @@
-package com.example.model;
+package com.cryptoexchange.account.model;
 
 import lombok.Data;
 

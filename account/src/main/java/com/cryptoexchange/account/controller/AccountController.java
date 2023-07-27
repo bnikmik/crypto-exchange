@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.cryptoexchange.account.controller;
 
-import com.example.dto.AccountDTO;
-import com.example.service.AccountService;
+import com.cryptoexchange.account.dto.AccountDTO;
+import com.cryptoexchange.account.service.AccountService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.cryptoexchange.customer.dto;
 
-import com.cryptoexchange.customer.enums.Role;
+import com.cryptoexchange.customer.model.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

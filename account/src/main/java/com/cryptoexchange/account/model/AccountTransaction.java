@@ -1,6 +1,5 @@
-package com.example.model;
+package com.cryptoexchange.account.model;
 
-import com.example.enums.TransactionType;
 import lombok.Data;
 
 import javax.persistence.*;

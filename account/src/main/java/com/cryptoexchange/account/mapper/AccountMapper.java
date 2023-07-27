@@ -1,7 +1,7 @@
-package com.example.mapper;
+package com.cryptoexchange.account.mapper;
 
-import com.example.dto.AccountDTO;
-import com.example.model.Account;
+import com.cryptoexchange.account.dto.AccountDTO;
+import com.cryptoexchange.account.model.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

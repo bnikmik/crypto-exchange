@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.cryptoexchange.account.repository;
 
-import com.example.model.Account;
+import com.cryptoexchange.account.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

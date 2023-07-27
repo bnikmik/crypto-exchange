@@ -1,6 +1,6 @@
-package com.example.dto;
+package com.cryptoexchange.account.dto;
 
-import com.example.model.AccountTransaction;
+import com.cryptoexchange.account.model.AccountTransaction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

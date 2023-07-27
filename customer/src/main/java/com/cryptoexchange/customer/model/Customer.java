@@ -1,6 +1,5 @@
 package com.cryptoexchange.customer.model;
 
-import com.cryptoexchange.customer.enums.Role;
 import lombok.Data;
 
 import javax.persistence.*;

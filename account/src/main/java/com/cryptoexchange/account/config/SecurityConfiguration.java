@@ -1,4 +1,4 @@
-package com.example.config;
+package com.cryptoexchange.account.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

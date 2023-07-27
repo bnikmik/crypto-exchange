@@ -1,9 +1,10 @@
-package com.example.service.impl;
+package com.cryptoexchange.account.service.impl;
 
-import com.example.dto.AccountDTO;
-import com.example.model.Account;
-import com.example.repository.AccountRepository;
-import com.example.service.AccountService;
+import com.cryptoexchange.account.mapper.AccountMapper;
+import com.cryptoexchange.account.repository.AccountRepository;
+import com.cryptoexchange.account.service.AccountService;
+import com.cryptoexchange.account.dto.AccountDTO;
+import com.cryptoexchange.account.model.Account;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.mapper.AccountMapper.INSTANCE;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +22,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO createAccount(AccountDTO accountDTO) {
-        repository.save(INSTANCE.toEntity(accountDTO));
+        repository.save(AccountMapper.INSTANCE.toEntity(accountDTO));
         return accountDTO;
     }
 
@@ -31,22 +30,23 @@ public class AccountServiceImpl implements AccountService {
     @Transactional(readOnly = true)
     public AccountDTO findAccount(Long id) {
         Account account = repository.findById(id).orElseThrow();
-        return INSTANCE.toDTO(account);
+        return AccountMapper.INSTANCE.toDTO(account);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AccountDTO> findAllAccounts() {
-        return repository.findAll().stream().map(INSTANCE::toDTO).collect(Collectors.toList());
+        return repository.findAll().stream().map(AccountMapper.INSTANCE::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public AccountDTO updateAccountById(Long id, AccountDTO accountDTO) {
         Account tmp = repository.findById(id).orElseThrow();
         //TODO:уточнить по методу
-        return INSTANCE.toDTO(tmp);
+        return AccountMapper.INSTANCE.toDTO(tmp);
     }
 
+    //TODO:НЕ УДАЛЯТЬ
     @Override
     public void deleteAccountById(Long id) {
         Account account = repository.findById(id).orElseThrow();

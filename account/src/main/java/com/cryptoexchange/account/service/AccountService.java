@@ -1,6 +1,6 @@
-package com.example.service;
+package com.cryptoexchange.account.service;
 
-import com.example.dto.AccountDTO;
+import com.cryptoexchange.account.dto.AccountDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,7 +16,7 @@ public interface AccountService {
     AccountDTO updateAccountById(Long id, AccountDTO accountDTO);
 
     void deleteAccountById(Long id);
-
+    //TODO:uuid на возрат
     void deposit(Long id, BigDecimal value);
 
     void withdrawal(Long id, BigDecimal value);
