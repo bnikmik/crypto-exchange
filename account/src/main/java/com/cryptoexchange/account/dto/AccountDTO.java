@@ -2,6 +2,7 @@ package com.cryptoexchange.account.dto;
 
 import com.cryptoexchange.account.model.AccountTransaction;
 import com.cryptoexchange.account.model.Currency;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,6 @@ public class AccountDTO {
     private Currency currency;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal balance;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private List<AccountTransaction> transactionList;
 }
