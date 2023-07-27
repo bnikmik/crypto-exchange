@@ -1,11 +1,12 @@
 package com.cryptoexchange.account.dto;
 
 import com.cryptoexchange.account.model.AccountTransaction;
+import com.cryptoexchange.account.model.Currency;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +16,8 @@ import java.util.UUID;
 public class AccountDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
-    @NotBlank
-    private String currencyType;
+    @NotNull
+    private Currency currency;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal balance;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
