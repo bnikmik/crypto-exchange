@@ -3,10 +3,10 @@
 
 create table account_transaction
 (
-    id         bigserial primary key,
-    created_at  timestamp,
+    id         uuid not null primary key,
+    created_at timestamp,
     type       varchar(255),
     value      numeric,
-    account_id bigint references account
+    account_id uuid references account
 );
 

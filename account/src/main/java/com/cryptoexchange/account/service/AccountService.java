@@ -4,22 +4,23 @@ import com.cryptoexchange.account.dto.AccountDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public interface AccountService {
 
     AccountDTO createAccount(AccountDTO accountDTO);
 
-    AccountDTO findAccount(Long id);
+    AccountDTO findAccount(UUID id);
 
     List<AccountDTO> findAllAccounts();
 
-    AccountDTO updateAccountById(Long id, AccountDTO accountDTO);
+    AccountDTO updateAccountById(UUID id, AccountDTO accountDTO);
 
-    void deleteAccountById(Long id);
+    void deleteAccountById(UUID id);
     //TODO:uuid на возрат
-    void deposit(Long id, BigDecimal value);
+    void deposit(UUID id, BigDecimal value);
 
-    void withdrawal(Long id, BigDecimal value);
+    void withdrawal(UUID id, BigDecimal value);
 
-    BigDecimal getBalance(Long id);
+    BigDecimal getBalance(UUID id);
 }

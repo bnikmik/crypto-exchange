@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findAccount(@PathVariable Long id) {
+    public ResponseEntity<?> findAccount(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findAccount(id));
     }
 
@@ -34,30 +35,30 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAccountById(@PathVariable Long id, @Valid @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<?> updateAccountById(@PathVariable UUID id, @Valid @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok(service.updateAccountById(id, accountDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAccountById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteAccountById(@PathVariable UUID id) {
         service.deleteAccountById(id);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/deposit")
-    public ResponseEntity<?> deposit(@PathVariable Long id, @RequestParam BigDecimal value) {
+    public ResponseEntity<?> deposit(@PathVariable UUID id, @RequestParam BigDecimal value) {
         service.deposit(id, value);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/withdrawal")
-    public ResponseEntity<?> withdrawal(@PathVariable Long id, @RequestParam BigDecimal value) {
+    public ResponseEntity<?> withdrawal(@PathVariable UUID id, @RequestParam BigDecimal value) {
         service.deposit(id, value);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/balance")
-    public ResponseEntity<?> getBalance(@PathVariable Long id) {
+    public ResponseEntity<?> getBalance(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getBalance(id));
     }
 }

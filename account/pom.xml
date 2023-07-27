@@ -6,7 +6,7 @@
         <groupId>com.example</groupId>
         <artifactId>crypto-exchange</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>account</artifactId>

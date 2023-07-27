@@ -8,14 +8,13 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class AccountDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
-    @NotBlank
-    private String accountNumber;
+    private UUID id;
     @NotBlank
     private String currencyType;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

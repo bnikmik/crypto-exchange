@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public AccountDTO findAccount(Long id) {
+    public AccountDTO findAccount(UUID id) {
         Account account = repository.findById(id).orElseThrow();
         return AccountMapper.INSTANCE.toDTO(account);
     }
@@ -40,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO updateAccountById(Long id, AccountDTO accountDTO) {
+    public AccountDTO updateAccountById(UUID id, AccountDTO accountDTO) {
         Account tmp = repository.findById(id).orElseThrow();
         //TODO:уточнить по методу
         return AccountMapper.INSTANCE.toDTO(tmp);
@@ -48,23 +49,23 @@ public class AccountServiceImpl implements AccountService {
 
     //TODO:НЕ УДАЛЯТЬ
     @Override
-    public void deleteAccountById(Long id) {
+    public void deleteAccountById(UUID id) {
         Account account = repository.findById(id).orElseThrow();
         repository.delete(account);
     }
 
     @Override
-    public void deposit(Long id, BigDecimal bigDecimal) {
+    public void deposit(UUID id, BigDecimal bigDecimal) {
 
     }
 
     @Override
-    public void withdrawal(Long id, BigDecimal bigDecimal) {
+    public void withdrawal(UUID id, BigDecimal bigDecimal) {
 
     }
 
     @Override
-    public BigDecimal getBalance(Long id) {
+    public BigDecimal getBalance(UUID id) {
         return null;
     }
 }

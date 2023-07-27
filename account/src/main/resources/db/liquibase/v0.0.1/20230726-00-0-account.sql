@@ -3,8 +3,7 @@
 
 create table account
 (
-    id             bigserial primary key,
-    account_number varchar(255),
+    id             uuid not null primary key,
     currency_type  varchar(255),
     balance        numeric
 );
