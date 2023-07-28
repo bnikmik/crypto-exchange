@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
@@ -19,8 +19,8 @@ public class AccountTransactionDTO {
     private Instant createdAt;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private TransactionType type;
-    @PositiveOrZero
-    private BigDecimal value;
+    @Positive
+    private BigDecimal value = new BigDecimal(0);
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID account;
 }

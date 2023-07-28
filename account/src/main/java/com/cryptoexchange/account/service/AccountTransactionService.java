@@ -16,5 +16,5 @@ public interface AccountTransactionService {
 
     UUID withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO);
 
-    BigDecimal getBalance(UUID accountId);
+    BigDecimal calcBalance(UUID accountId);
 }

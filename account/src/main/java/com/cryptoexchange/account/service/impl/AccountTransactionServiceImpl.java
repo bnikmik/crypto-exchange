@@ -7,7 +7,7 @@ import com.cryptoexchange.account.model.TransactionType;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.repository.AccountTransactionRepository;
 import com.cryptoexchange.account.service.AccountTransactionService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import static com.cryptoexchange.account.mapper.AccountTransactionMapper.INSTANCE;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountTransactionServiceImpl implements AccountTransactionService {
 
     private final AccountTransactionRepository repository;
@@ -59,7 +59,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     }
 
     @Override
-    public BigDecimal getBalance(UUID accountId) {
-        return null;
+    public BigDecimal calcBalance(UUID accountId) {
+        return repository.calcBalance(accountId);
     }
 }

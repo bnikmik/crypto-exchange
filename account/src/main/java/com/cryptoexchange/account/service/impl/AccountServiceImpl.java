@@ -1,14 +1,13 @@
 package com.cryptoexchange.account.service.impl;
 
-import com.cryptoexchange.account.repository.AccountRepository;
-import com.cryptoexchange.account.service.AccountService;
 import com.cryptoexchange.account.dto.AccountDTO;
 import com.cryptoexchange.account.model.Account;
+import com.cryptoexchange.account.repository.AccountRepository;
+import com.cryptoexchange.account.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,7 +24,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTO createAccount(AccountDTO accountDTO) {
         Account account = INSTANCE.toEntity(accountDTO);
-        account.setBalance(new BigDecimal(0));
         repository.save(account);
         return INSTANCE.toDTO(account);
     }
