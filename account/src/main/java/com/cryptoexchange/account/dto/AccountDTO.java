@@ -20,6 +20,7 @@ public class AccountDTO {
     @NotNull
     private Currency currency;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal(0);
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<AccountTransaction> transactionList = Collections.emptyList();
 }

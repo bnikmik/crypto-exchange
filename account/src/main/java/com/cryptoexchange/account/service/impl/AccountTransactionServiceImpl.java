@@ -44,6 +44,8 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
         accountTransaction.setType(TransactionType.DEPOSIT);
         accountTransaction.setAccount(account);
         repository.save(accountTransaction);
+        account.setBalance(calcBalance(accountId));
+        accountRepository.save(account);
         return accountTransaction.getId();
     }
 
@@ -55,6 +57,8 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
         accountTransaction.setType(TransactionType.WITHDRAWAL);
         accountTransaction.setAccount(account);
         repository.save(accountTransaction);
+        account.setBalance(calcBalance(accountId));
+        accountRepository.save(account);
         return accountTransaction.getId();
     }
 

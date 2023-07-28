@@ -1,6 +1,7 @@
 package com.cryptoexchange.account.service.impl;
 
 import com.cryptoexchange.account.dto.AccountDTO;
+import com.cryptoexchange.account.dto.BalanceDTO;
 import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.service.AccountService;
@@ -46,5 +47,11 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(UUID id) {
         Account account = repository.findById(id).orElseThrow();
         repository.delete(account);
+    }
+
+    @Override
+    public BalanceDTO getBalance(UUID id) {
+        Account account = repository.findById(id).orElseThrow();
+        return INSTANCE.toBalanceDTO(account);
     }
 }

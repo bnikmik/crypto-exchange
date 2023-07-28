@@ -39,4 +39,8 @@ public class AccountController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/balance/{accountId}")
+    public ResponseEntity<?> calcBalance(@PathVariable UUID accountId) {
+        return ResponseEntity.ok(service.getBalance(accountId));
+    }
 }

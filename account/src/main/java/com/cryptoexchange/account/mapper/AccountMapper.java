@@ -1,6 +1,7 @@
 package com.cryptoexchange.account.mapper;
 
 import com.cryptoexchange.account.dto.AccountDTO;
+import com.cryptoexchange.account.dto.BalanceDTO;
 import com.cryptoexchange.account.model.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -13,4 +14,6 @@ public interface AccountMapper {
     AccountDTO toDTO(Account account);
 
     Account toEntity(AccountDTO accountDTO);
+
+    BalanceDTO toBalanceDTO(Account account);
 }

@@ -1,5 +1,6 @@
 package com.cryptoexchange.account.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,5 +19,6 @@ public class AccountTransaction {
     private TransactionType type;
     private BigDecimal value;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Account account;
 }

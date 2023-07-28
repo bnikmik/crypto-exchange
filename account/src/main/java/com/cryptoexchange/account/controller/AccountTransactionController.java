@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -28,17 +29,12 @@ public class AccountTransactionController {
     }
 
     @PostMapping("/deposit/{accountId}")
-    public ResponseEntity<?> deposit(@PathVariable UUID accountId, @RequestBody AccountTransactionDTO accountTransactionDTO) {
+    public ResponseEntity<?> deposit(@PathVariable UUID accountId, @Valid @RequestBody AccountTransactionDTO accountTransactionDTO) {
         return ResponseEntity.ok(service.deposit(accountId, accountTransactionDTO));
     }
 
     @PostMapping("/withdrawal/{accountId}")
-    public ResponseEntity<?> withdrawal(@PathVariable UUID accountId, @RequestBody AccountTransactionDTO accountTransactionDTO) {
+    public ResponseEntity<?> withdrawal(@PathVariable UUID accountId, @Valid @RequestBody AccountTransactionDTO accountTransactionDTO) {
         return ResponseEntity.ok(service.withdrawal(accountId, accountTransactionDTO));
-    }
-
-    @GetMapping("/balance/{accountId}")
-    public ResponseEntity<?> calcBalance(@PathVariable UUID accountId) {
-        return ResponseEntity.ok(service.calcBalance(accountId));
     }
 }

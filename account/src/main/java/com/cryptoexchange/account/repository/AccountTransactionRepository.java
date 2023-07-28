@@ -13,12 +13,13 @@ import java.util.UUID;
 public interface AccountTransactionRepository extends JpaRepository<AccountTransaction, UUID> {
 
     @Query(value = """
-            SELECT sum(at.value)
+            SELECT (SELECT sum(at.value)
                     FROM account_transaction at
                     WHERE type LIKE 'DEPOSIT'
-                      AND at.account_id = :accountId NOT IN (SELECT sum(at.value)
-                                                    FROM account_transaction at
-                                                    WHERE type LIKE 'WITHDRAWAL'
-                                                      AND at.account_id = :accountId)""",nativeQuery = true)
+                      AND at.account_id = :accountId) - (SELECT sum(at.value)
+                                                         FROM account_transaction at
+                                                         WHERE type LIKE 'WITHDRAWAL'
+                                                           AND at.account_id = :accountId) as result
+            """, nativeQuery = true)
     BigDecimal calcBalance(@Param("accountId") UUID accountId);
 }

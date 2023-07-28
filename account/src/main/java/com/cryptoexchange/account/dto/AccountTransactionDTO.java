@@ -20,7 +20,7 @@ public class AccountTransactionDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private TransactionType type;
     @Positive
-    private BigDecimal value = new BigDecimal(0);
+    private BigDecimal value;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID account;
 }
