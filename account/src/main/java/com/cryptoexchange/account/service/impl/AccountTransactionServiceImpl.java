@@ -1,6 +1,7 @@
 package com.cryptoexchange.account.service.impl;
 
 import com.cryptoexchange.account.dto.AccountTransactionDTO;
+import com.cryptoexchange.account.dto.TransactionIdDTO;
 import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.model.AccountTransaction;
 import com.cryptoexchange.account.model.TransactionType;
@@ -39,7 +40,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     @Transactional
-    public UUID deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
+    public TransactionIdDTO deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
         Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setType(TransactionType.DEPOSIT);
@@ -47,12 +48,12 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
         repository.save(accountTransaction);
         account.setBalance(calcBalance(accountId));
         accountRepository.save(account);
-        return accountTransaction.getId();
+        return INSTANCE.toTransactionIdDTO(accountTransaction);
     }
 
     @Override
     @Transactional
-    public UUID withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
+    public TransactionIdDTO withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
         Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setType(TransactionType.WITHDRAWAL);
@@ -60,11 +61,10 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
         repository.save(accountTransaction);
         account.setBalance(calcBalance(accountId));
         accountRepository.save(account);
-        return accountTransaction.getId();
+        return INSTANCE.toTransactionIdDTO(accountTransaction);
     }
 
-    @Override
-    public BigDecimal calcBalance(UUID accountId) {
+    private BigDecimal calcBalance(UUID accountId) {
         return repository.calcBalance(accountId);
     }
 }

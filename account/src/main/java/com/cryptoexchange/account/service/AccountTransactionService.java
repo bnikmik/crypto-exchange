@@ -1,8 +1,8 @@
 package com.cryptoexchange.account.service;
 
 import com.cryptoexchange.account.dto.AccountTransactionDTO;
+import com.cryptoexchange.account.dto.TransactionIdDTO;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,9 +12,7 @@ public interface AccountTransactionService {
 
     List<AccountTransactionDTO> findAllAccountTransactions();
 
-    UUID deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO);
+    TransactionIdDTO deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO);
 
-    UUID withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO);
-
-    BigDecimal calcBalance(UUID accountId);
+    TransactionIdDTO withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO);
 }
