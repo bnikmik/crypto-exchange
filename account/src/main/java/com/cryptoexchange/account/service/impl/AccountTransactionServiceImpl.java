@@ -7,6 +7,7 @@ import com.cryptoexchange.account.model.TransactionType;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.repository.AccountTransactionRepository;
 import com.cryptoexchange.account.service.AccountTransactionService;
+import com.cryptoexhange.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     public AccountTransactionDTO findAccountTransactionById(UUID id) {
-        AccountTransaction accountTransaction = repository.findById(id).orElseThrow();
+        AccountTransaction accountTransaction = repository.findById(id).orElseThrow(NotFoundException::new);
         return INSTANCE.toDTO(accountTransaction);
     }
 
@@ -39,7 +40,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     @Override
     @Transactional
     public UUID deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
-        Account account = accountRepository.findById(accountId).orElseThrow();
+        Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setType(TransactionType.DEPOSIT);
         accountTransaction.setAccount(account);
@@ -52,7 +53,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     @Override
     @Transactional
     public UUID withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
-        Account account = accountRepository.findById(accountId).orElseThrow();
+        Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setType(TransactionType.WITHDRAWAL);
         accountTransaction.setAccount(account);

@@ -1,6 +1,6 @@
-package com.cryptoexchange.customer.exception.handler;
+package com.cryptoexhange.common.exception.handler;
 
-import com.cryptoexchange.customer.exception.NotFoundException;
+import com.cryptoexhange.common.exception.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

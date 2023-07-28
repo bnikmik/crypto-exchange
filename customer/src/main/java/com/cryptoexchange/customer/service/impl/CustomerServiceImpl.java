@@ -1,10 +1,10 @@
 package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.customer.dto.CustomerDTO;
-import com.cryptoexchange.customer.exception.NotFoundException;
 import com.cryptoexchange.customer.model.Customer;
 import com.cryptoexchange.customer.repository.CustomerRepository;
 import com.cryptoexchange.customer.service.CustomerService;
+import com.cryptoexhange.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

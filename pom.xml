@@ -17,6 +17,7 @@
   <modules>
     <module>customer</module>
     <module>account</module>
+    <module>common</module>
   </modules>
 
   <name>crypto-exchange</name>
@@ -95,6 +96,12 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.example</groupId>
+      <artifactId>common</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

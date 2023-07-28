@@ -1,4 +1,4 @@
-package com.cryptoexchange.customer.exception;
+package com.cryptoexhange.common.exception;
 
 public class NotFoundException extends RuntimeException {
 }

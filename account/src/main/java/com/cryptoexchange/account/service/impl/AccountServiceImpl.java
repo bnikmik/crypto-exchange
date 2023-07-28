@@ -5,6 +5,7 @@ import com.cryptoexchange.account.dto.BalanceDTO;
 import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.service.AccountService;
+import com.cryptoexhange.common.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional(readOnly = true)
     public AccountDTO findAccount(UUID id) {
-        Account account = repository.findById(id).orElseThrow();
+        Account account = repository.findById(id).orElseThrow(NotFoundException::new);
         return INSTANCE.toDTO(account);
     }
 
@@ -45,13 +46,13 @@ public class AccountServiceImpl implements AccountService {
     //TODO:НЕ УДАЛЯТЬ
     @Override
     public void deleteAccountById(UUID id) {
-        Account account = repository.findById(id).orElseThrow();
+        Account account = repository.findById(id).orElseThrow(NotFoundException::new);
         repository.delete(account);
     }
 
     @Override
     public BalanceDTO getBalance(UUID id) {
-        Account account = repository.findById(id).orElseThrow();
+        Account account = repository.findById(id).orElseThrow(NotFoundException::new);
         return INSTANCE.toBalanceDTO(account);
     }
 }
