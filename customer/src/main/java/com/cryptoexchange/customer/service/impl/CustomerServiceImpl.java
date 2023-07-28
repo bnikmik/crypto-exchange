@@ -1,10 +1,11 @@
 package com.cryptoexchange.customer.service.impl;
 
+import com.cryptoexchange.common.exception.NotFoundException;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.model.Customer;
 import com.cryptoexchange.customer.repository.CustomerRepository;
 import com.cryptoexchange.customer.service.CustomerService;
-import com.cryptoexhange.common.exception.NotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO updateCustomerById(Long id, CustomerDTO customerDTO) {
         Customer tmp = repository.findById(id).orElseThrow(NotFoundException::new);
-        tmp.setVerified(customerDTO.isVerified());
+        tmp.setIsVerified(customerDTO.getIsVerified());
         tmp.setEmail(customerDTO.getEmail());
         tmp.setRolesList(customerDTO.getRolesList());
         tmp.setAvatarLink(customerDTO.getAvatarLink());
@@ -55,6 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomerById(Long id) {
         Customer customer = repository.findById(id).orElseThrow(NotFoundException::new);
-        repository.delete(customer);
+        customer.setIsActive(false);
+        repository.save(customer);
     }
 }

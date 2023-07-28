@@ -1,5 +1,6 @@
 package com.cryptoexchange.customer.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +20,10 @@ public class Customer {
     @CollectionTable(name = "customer_roles", joinColumns = @JoinColumn(name = "customer_id"))
     @Column(name = "role")
     private List<Role> rolesList;
-    private boolean isVerified;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Boolean isVerified;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Boolean isActive;
     private String phoneNumber;
     private String email;
     private URL avatarLink;

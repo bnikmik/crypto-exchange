@@ -23,7 +23,10 @@ public class CustomerDTO {
     private String fullName;
     @NotEmpty
     private List<Role> rolesList;
-    private boolean isVerified;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Boolean isVerified = false;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Boolean isActive = true;
     @NotBlank
     private String phoneNumber;
     @Email

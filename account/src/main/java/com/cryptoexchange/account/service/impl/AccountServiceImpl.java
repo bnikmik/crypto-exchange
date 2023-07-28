@@ -5,7 +5,7 @@ import com.cryptoexchange.account.dto.BalanceDTO;
 import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.service.AccountService;
-import com.cryptoexhange.common.exception.NotFoundException;
+import com.cryptoexchange.common.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
