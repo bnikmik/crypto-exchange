@@ -73,8 +73,7 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить пользователя по id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = CustomerDTO.class))}),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {

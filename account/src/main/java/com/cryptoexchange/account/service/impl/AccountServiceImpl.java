@@ -5,7 +5,7 @@ import com.cryptoexchange.account.dto.BalanceDTO;
 import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.service.AccountService;
-import com.cryptoexchange.common.exception.NotFoundException;
+import com.cryptoexchange.common.exception.RecordNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional(readOnly = true)
     public AccountDTO findAccount(UUID id) {
-        Account account = repository.findById(id).orElseThrow(NotFoundException::new);
+        Account account = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + id + " не найден"));
         return INSTANCE.toDTO(account);
     }
 
@@ -45,14 +45,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccountById(UUID id) {
-        Account account = repository.findById(id).orElseThrow(NotFoundException::new);
+        Account account = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + id + " не найден"));
         account.setIsActive(false);
         repository.save(account);
     }
 
     @Override
     public BalanceDTO getBalance(UUID id) {
-        Account account = repository.findById(id).orElseThrow(NotFoundException::new);
+        Account account = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + id + " не найден"));
         return INSTANCE.toBalanceDTO(account);
     }
 }

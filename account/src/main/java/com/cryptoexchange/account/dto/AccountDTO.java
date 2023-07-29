@@ -17,7 +17,7 @@ import java.util.UUID;
 public class AccountDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
-    @NotNull
+    @NotNull(message = "Currency не может быть незаполненным")
     private Currency currency;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal balance = new BigDecimal(0);

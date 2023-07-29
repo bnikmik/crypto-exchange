@@ -8,7 +8,7 @@ import com.cryptoexchange.account.model.TransactionType;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.repository.AccountTransactionRepository;
 import com.cryptoexchange.account.service.AccountTransactionService;
-import com.cryptoexchange.common.exception.NotFoundException;
+import com.cryptoexchange.common.exception.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     public AccountTransactionDTO findAccountTransactionById(UUID id) {
-        AccountTransaction accountTransaction = repository.findById(id).orElseThrow(NotFoundException::new);
+        AccountTransaction accountTransaction = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Транзакция с ID " + id + " не найдена"));
         return INSTANCE.toDTO(accountTransaction);
     }
 
@@ -41,7 +41,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     @Override
     @Transactional
     public TransactionIdDTO deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
-        Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + accountId + " не найден"));
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setType(TransactionType.DEPOSIT);
         accountTransaction.setAccount(account);
@@ -54,7 +54,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     @Override
     @Transactional
     public TransactionIdDTO withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
-        Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + accountId + " не найден"));
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setType(TransactionType.WITHDRAWAL);
         accountTransaction.setAccount(account);
