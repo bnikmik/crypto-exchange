@@ -2,6 +2,8 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/liquibase/changelog.xml
+    default-schema: customer_schema
+    liquibase-schema: liquibase_schema
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -13,6 +15,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_schema: account_schema
   security:
     oauth2:
       resourceserver:

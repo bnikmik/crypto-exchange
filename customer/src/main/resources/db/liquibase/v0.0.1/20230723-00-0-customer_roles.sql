@@ -1,9 +1,9 @@
 -- liquibase formatted sql
--- changeset bnikmik:1
+-- changeset bnikmik:2
 
-create table customer_roles
+create table customer_schema.customer_roles
 (
-    customer_id bigint not null references customer,
+    customer_id bigint not null references customer_schema.customer,
     role        varchar(255)
 );
 
