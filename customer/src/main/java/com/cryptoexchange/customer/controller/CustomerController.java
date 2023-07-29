@@ -1,5 +1,6 @@
 package com.cryptoexchange.customer.controller;
 
+import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,10 +12,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Instant;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +37,8 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
-        return ResponseEntity.ok(service.createCustomer(customerDTO));
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createCustomer(customerDTO));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -44,7 +49,8 @@ public class CustomerController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> findCustomerById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findCustomerById(id));
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findCustomerById(id));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @GetMapping()
@@ -55,7 +61,8 @@ public class CustomerController {
 
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> findAllCustomers() {
-        return ResponseEntity.ok(service.findAllCustomers());
+        ResponseWrapper<List<CustomerDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllCustomers());
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -67,7 +74,8 @@ public class CustomerController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> updateCustomerById(@PathVariable Long id, @Valid @RequestBody CustomerDTO customerDTO) {
-        return ResponseEntity.ok(service.updateCustomerById(id, customerDTO));
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.updateCustomerById(id, customerDTO));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -78,6 +86,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {
         service.deleteCustomerById(id);
-        return ResponseEntity.ok().build();
+        ResponseWrapper<String> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, "Пользователь деактивирован");
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 }

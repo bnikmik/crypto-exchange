@@ -8,15 +8,14 @@ import org.springframework.http.HttpStatus;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.Instant;
-import java.util.List;
 
 @XmlRootElement(name = "error")
 @Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor()
-public class ExceptionResponse {
+public class ResponseWrapper<T> {
     private Instant timestamp;
     private HttpStatus status;
-    private List<String> details;
+    private T details;
 }

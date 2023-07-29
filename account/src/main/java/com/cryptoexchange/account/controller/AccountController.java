@@ -1,13 +1,18 @@
 package com.cryptoexchange.account.controller;
 
 import com.cryptoexchange.account.dto.AccountDTO;
+import com.cryptoexchange.account.dto.BalanceDTO;
 import com.cryptoexchange.account.service.AccountService;
+import com.cryptoexchange.common.exception.ResponseWrapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,27 +25,32 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<?> createAccount(@Valid @RequestBody AccountDTO accountDTO) {
-        return ResponseEntity.ok(service.createAccount(accountDTO));
+        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createAccount(accountDTO));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findAccount(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.findAccount(id));
+        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAccount(id));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<?> findAllAccounts() {
-        return ResponseEntity.ok(service.findAllAccounts());
+        ResponseWrapper<List<AccountDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAccounts());
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccountById(@PathVariable UUID id) {
         service.deleteAccountById(id);
-        return ResponseEntity.ok().build();
+        ResponseWrapper<String> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, "Счет деактивирован");
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     @GetMapping("/balance/{accountId}")
     public ResponseEntity<?> calcBalance(@PathVariable UUID accountId) {
-        return ResponseEntity.ok(service.getBalance(accountId));
+        ResponseWrapper<BalanceDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.getBalance(accountId));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 }

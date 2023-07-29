@@ -1,6 +1,6 @@
 package com.cryptoexchange.customer.controller.advice;
 
-import com.cryptoexchange.common.exception.ExceptionResponse;
+import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.exception.RecordNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             RecordNotFoundException ex) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ExceptionResponse error = new ExceptionResponse(Instant.now(), HttpStatus.NOT_FOUND, details);
+        ResponseWrapper<List<String>> error = new ResponseWrapper<>(Instant.now(), HttpStatus.NOT_FOUND, details);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
@@ -36,7 +36,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             details.add(error.getDefaultMessage());
         }
-        ExceptionResponse error = new ExceptionResponse(Instant.now(), HttpStatus.BAD_REQUEST, details);
+        ResponseWrapper<List<String>> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, details);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
