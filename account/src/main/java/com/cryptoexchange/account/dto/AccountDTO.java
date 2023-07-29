@@ -22,5 +22,7 @@ public class AccountDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal balance = new BigDecimal(0);
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Boolean isActive = true;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<AccountTransaction> transactionList = Collections.emptyList();
 }

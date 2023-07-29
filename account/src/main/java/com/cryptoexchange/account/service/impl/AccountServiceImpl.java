@@ -43,11 +43,11 @@ public class AccountServiceImpl implements AccountService {
         return repository.findAll().stream().map(INSTANCE::toDTO).collect(Collectors.toList());
     }
 
-    //TODO:НЕ УДАЛЯТЬ
     @Override
     public void deleteAccountById(UUID id) {
         Account account = repository.findById(id).orElseThrow(NotFoundException::new);
-        repository.delete(account);
+        account.setIsActive(false);
+        repository.save(account);
     }
 
     @Override

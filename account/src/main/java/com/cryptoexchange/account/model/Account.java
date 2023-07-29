@@ -16,6 +16,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Currency currency;
     private BigDecimal balance;
+    private Boolean isActive;
     @OneToMany(mappedBy = "account",cascade = CascadeType.REMOVE)
     private List<AccountTransaction> transactionList;
 }
