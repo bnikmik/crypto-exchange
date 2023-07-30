@@ -17,6 +17,6 @@ public class Account {
     private Currency currency;
     private BigDecimal balance;
     private Boolean isActive;
-    @OneToMany(mappedBy = "account",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private List<AccountTransaction> transactionList;
 }

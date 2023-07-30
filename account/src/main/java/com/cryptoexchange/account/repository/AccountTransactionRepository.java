@@ -14,10 +14,10 @@ public interface AccountTransactionRepository extends JpaRepository<AccountTrans
 
     @Query(value = """
             SELECT (SELECT sum(at.value)
-                    FROM account_transaction at
+                    FROM account_schema.account_transaction at
                     WHERE type LIKE 'DEPOSIT'
                       AND at.account_id = :accountId) - (SELECT sum(at.value)
-                                                         FROM account_transaction at
+                                                         FROM account_schema.account_transaction at
                                                          WHERE type LIKE 'WITHDRAWAL'
                                                            AND at.account_id = :accountId) as result
             """, nativeQuery = true)
