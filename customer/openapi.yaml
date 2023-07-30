@@ -20,16 +20,16 @@ paths:
           type: integer
           format: int64
       responses:
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
-        "404":
-          description: Пользователь не найден.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
+        "404":
+          description: Пользователь не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
     put:
@@ -53,22 +53,22 @@ paths:
       responses:
         "400":
           description: Введены неверные параметры.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
-        "404":
-          description: Пользователь не найден.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
+        "404":
+          description: Пользователь не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
     delete:
       tags:
       - Пользователи
-      summary: Удалить пользователя по id
+      summary: Деактивировать пользователя по id
       operationId: deleteCustomerById
       parameters:
       - name: id
@@ -78,16 +78,12 @@ paths:
           type: integer
           format: int64
       responses:
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "404":
           description: Пользователь не найден.
         "200":
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CustomerDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
   /customers:
@@ -97,8 +93,6 @@ paths:
       summary: Получить всех пользоваталей
       operationId: findAllCustomers
       responses:
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
@@ -107,6 +101,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CustomerDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
     post:
@@ -123,31 +119,36 @@ paths:
       responses:
         "400":
           description: Введены неверные параметры.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
 components:
   schemas:
     CustomerDTO:
       required:
-      - avatarLink
-      - phoneNumber
-      - rolesList
+      - email
+      - fullName
+      - login
       type: object
       properties:
         id:
           type: integer
           format: int64
           readOnly: true
+        login:
+          type: string
+        fullName:
+          type: string
         rolesList:
           type: array
+          readOnly: true
           items:
             type: string
             enum:
@@ -157,15 +158,20 @@ components:
             - MODERATOR
             - ADMIN
             - MARKET
+        isVerified:
+          type: boolean
+          readOnly: true
+        isActive:
+          type: boolean
+          readOnly: true
         phoneNumber:
+          pattern: "^[0-9]{10,12}$"
           type: string
         email:
           type: string
         avatarLink:
           type: string
           format: url
-        verified:
-          type: boolean
   securitySchemes:
     Bearer Authentication:
       type: http
