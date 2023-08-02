@@ -4,7 +4,6 @@ import com.cryptoexchange.account.dto.AccountTransactionDTO;
 import com.cryptoexchange.account.dto.TransactionIdDTO;
 import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.model.AccountTransaction;
-import com.cryptoexchange.account.model.TransactionType;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.repository.AccountTransactionRepository;
 import com.cryptoexchange.account.service.AccountTransactionService;
@@ -40,23 +39,9 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     @Transactional
-    public TransactionIdDTO deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
+    public TransactionIdDTO makeTransaction(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + accountId + " не найден"));
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
-        accountTransaction.setType(TransactionType.DEPOSIT);
-        accountTransaction.setAccount(account);
-        repository.save(accountTransaction);
-        account.setBalance(calcBalance(accountId));
-        accountRepository.save(account);
-        return INSTANCE.toTransactionIdDTO(accountTransaction);
-    }
-
-    @Override
-    @Transactional
-    public TransactionIdDTO withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + accountId + " не найден"));
-        AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
-        accountTransaction.setType(TransactionType.WITHDRAWAL);
         accountTransaction.setAccount(account);
         repository.save(accountTransaction);
         account.setBalance(calcBalance(accountId));

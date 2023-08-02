@@ -12,7 +12,5 @@ public interface AccountTransactionService {
 
     List<AccountTransactionDTO> findAllAccountTransactions();
 
-    TransactionIdDTO deposit(UUID accountId, AccountTransactionDTO accountTransactionDTO);
-
-    TransactionIdDTO withdrawal(UUID accountId, AccountTransactionDTO accountTransactionDTO);
+    TransactionIdDTO makeTransaction(UUID accountId, AccountTransactionDTO accountTransactionDTO);
 }

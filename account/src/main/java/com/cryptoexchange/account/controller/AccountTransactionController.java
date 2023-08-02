@@ -55,20 +55,7 @@ public class AccountTransactionController {
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
-    @Operation(summary = "Пополнить счет по id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AccountDTO.class))}),
-            @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
-            @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Счет не найден.", content = @Content)})
-    @PostMapping("/deposit/{accountId}")
-    public ResponseEntity<?> deposit(@PathVariable UUID accountId, @Valid @RequestBody AccountTransactionDTO accountTransactionDTO) {
-        ResponseWrapper<TransactionIdDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.deposit(accountId, accountTransactionDTO));
-        return new ResponseEntity<>(wrapper, HttpStatus.OK);
-    }
-
-    @PostMapping("/withdrawal/{accountId}")
+    @PostMapping("/{accountId}")
     @Operation(summary = "Изъять со счета по id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
@@ -76,8 +63,8 @@ public class AccountTransactionController {
             @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Счет не найден.", content = @Content)})
-    public ResponseEntity<?> withdrawal(@PathVariable UUID accountId, @Valid @RequestBody AccountTransactionDTO accountTransactionDTO) {
-        ResponseWrapper<TransactionIdDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.withdrawal(accountId, accountTransactionDTO));
+    public ResponseEntity<?> makeTransaction(@PathVariable UUID accountId, @Valid @RequestBody AccountTransactionDTO accountTransactionDTO) {
+        ResponseWrapper<TransactionIdDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.makeTransaction(accountId, accountTransactionDTO));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 }

@@ -19,7 +19,6 @@ public interface AccountTransactionMapper {
     @Mappings({
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "type", ignore = true),
             @Mapping(target = "account", ignore = true)
     })
     AccountTransaction toEntity(AccountTransactionDTO accountTransactionDTO);
