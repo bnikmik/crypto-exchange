@@ -1,14 +1,17 @@
 package com.cryptoexchange.account.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Account {
     @Id
     @GeneratedValue
@@ -16,6 +19,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Currency currency;
     private BigDecimal balance;
+    private Instant lastTransactionDate;
     private Boolean isActive;
     @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private List<AccountTransaction> transactionList;

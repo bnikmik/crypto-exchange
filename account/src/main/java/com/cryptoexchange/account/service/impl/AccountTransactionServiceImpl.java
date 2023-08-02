@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,12 +45,13 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setAccount(account);
         repository.save(accountTransaction);
-        account.setBalance(calcBalance(accountId));
+        account.setBalance(calcBalance(accountId,account.getBalance(),account.getLastTransactionDate()));
+        account.setLastTransactionDate(accountTransaction.getCreatedAt());
         accountRepository.save(account);
         return INSTANCE.toTransactionIdDTO(accountTransaction);
     }
 
-    private BigDecimal calcBalance(UUID accountId) {
-        return repository.calcBalance(accountId);
+    private BigDecimal calcBalance(UUID accountId, BigDecimal balance, Instant lastTransactionDate) {
+        return repository.calcBalance(accountId,balance,lastTransactionDate);
     }
 }

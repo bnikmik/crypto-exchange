@@ -7,19 +7,23 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 @Repository
 public interface AccountTransactionRepository extends JpaRepository<AccountTransaction, UUID> {
 
     @Query(value = """
-            SELECT (SELECT sum(at.value)
-                    FROM account_schema.account_transaction at
-                    WHERE type LIKE 'DEPOSIT'
-                      AND at.account_id = :accountId) - (SELECT sum(at.value)
-                                                         FROM account_schema.account_transaction at
-                                                         WHERE type LIKE 'WITHDRAWAL'
-                                                           AND at.account_id = :accountId) as result
-            """, nativeQuery = true)
-    BigDecimal calcBalance(@Param("accountId") UUID accountId);
+            SELECT ((SELECT COALESCE(sum(at.value),0)
+                     FROM account_schema.account_transaction at
+                     WHERE type LIKE 'DEPOSIT'
+                       AND at.account_id = :accountId
+                       AND at.created_at > :lastTransactionDate) - (SELECT COALESCE(sum(at.value),0)
+                                                                    FROM account_schema.account_transaction at
+                                                                    WHERE type LIKE 'WITHDRAWAL'
+                                                                      AND at.account_id = :accountId
+                                                                      AND at.created_at > :lastTransactionDate) +
+                    :balance) as result
+                        """, nativeQuery = true)
+    BigDecimal calcBalance(@Param("accountId") UUID accountId,@Param("balance") BigDecimal balance,@Param("lastTransactionDate") Instant lastTransactionDate);
 }

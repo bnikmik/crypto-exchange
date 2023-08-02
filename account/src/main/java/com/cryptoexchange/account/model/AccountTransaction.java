@@ -1,7 +1,8 @@
 package com.cryptoexchange.account.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,7 +10,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class AccountTransaction {
     @Id
     @GeneratedValue

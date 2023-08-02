@@ -56,7 +56,7 @@ public class AccountTransactionController {
     }
 
     @PostMapping("/{accountId}")
-    @Operation(summary = "Изъять со счета по id")
+    @Operation(summary = "Сделать транзакцию у счета по id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = AccountDTO.class))}),
