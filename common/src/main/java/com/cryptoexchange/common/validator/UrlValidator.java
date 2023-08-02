@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class UrlValidator implements ConstraintValidator<ValidURL, URL> {
 
-    private static final String URL_REGEX = "^((https?|ftp)://)?([\\w_-]+(\\.[\\w_-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-]))?$";
+    private static final String URL_REGEX = "^(https?|ftp)://[^\\s/$.?#].[^\s]*$";
 
     @Override
     public void initialize(ValidURL constraintAnnotation) {

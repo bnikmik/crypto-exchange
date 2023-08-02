@@ -33,6 +33,6 @@ public class CustomerDTO {
     @Email(message = "Email должен быть корректным: name@email.com")
     @NotBlank(message = "Email не может быть пустым")
     private String email;
-    @ValidURL
+    @ValidURL(message = "URL должен соответстовать типу http://url.com")
     private URL avatarLink;
 }
