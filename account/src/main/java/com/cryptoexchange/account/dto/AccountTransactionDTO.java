@@ -17,7 +17,6 @@ public class AccountTransactionDTO {
     private UUID id;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;
-//    @EnumNamePattern(regexp = "WITHDRAWAL|DEPOSIT", message = "Транзакция должна быть WITHDRAWAL или DEPOSIT")
     private TransactionType type;
     @Positive
     private BigDecimal value;

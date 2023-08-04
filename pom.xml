@@ -18,6 +18,7 @@
         <module>customer</module>
         <module>account</module>
         <module>common</module>
+        <module>deal</module>
     </modules>
 
     <properties>
@@ -86,6 +87,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -95,6 +101,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-core</artifactId>
+            <version>19.0.3</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -102,6 +114,11 @@
             <dependency>
                 <groupId>com.crypto-exchange</groupId>
                 <artifactId>common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.crypto-exchange</groupId>
+                <artifactId>account</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
         </dependencies>

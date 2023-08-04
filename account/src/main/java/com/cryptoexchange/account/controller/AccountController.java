@@ -43,6 +43,11 @@ public class AccountController {
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
+    @PostMapping("/test")
+    public ResponseEntity<?> createAccountTest(@Valid @RequestBody AccountDTO accountDTO) {
+        return ResponseEntity.ok(service.createAccount(accountDTO));
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Получить счет по id")
     @ApiResponses(value = {

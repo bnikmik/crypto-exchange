@@ -5,7 +5,7 @@ import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.model.Customer;
 import com.cryptoexchange.customer.repository.CustomerRepository;
 import com.cryptoexchange.customer.service.CustomerService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +16,17 @@ import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository repository;
 
+    private final AccountClientServiceImpl accountClientService;
+
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = INSTANCE.toEntity(customerDTO);
+        customer.setFullName(accountClientService.getDto().getId().toString());
         repository.save(customer);
         return INSTANCE.toDTO(customer);
     }

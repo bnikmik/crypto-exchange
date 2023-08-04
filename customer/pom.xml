@@ -20,7 +20,7 @@
 			<groupId>com.crypto-exchange</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
