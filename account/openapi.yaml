@@ -1,0 +1,305 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8082
+  description: Generated server url
+paths:
+  /accounts:
+    get:
+      tags:
+      - Счета
+      summary: Получить все счета
+      operationId: findAllAccounts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+    post:
+      tags:
+      - Счета
+      summary: Создать новый счет
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDTO'
+        required: true
+      responses:
+        "400":
+          description: Введены неверные параметры.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+  /accounts/transactions/{accountId}:
+    post:
+      tags:
+      - Транзакции счетов
+      summary: Сделать транзакцию у счета по id
+      operationId: makeTransaction
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountTransactionDTO'
+        required: true
+      responses:
+        "400":
+          description: Введены неверные параметры.
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+  /accounts/test:
+    post:
+      tags:
+      - Счета
+      operationId: createAccountTest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+      security:
+      - Bearer Authentication: []
+  /accounts/{id}:
+    get:
+      tags:
+      - Счета
+      summary: Получить счет по id
+      operationId: findAccount
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+    delete:
+      tags:
+      - Счета
+      summary: Деактивировать счет по id
+      operationId: deleteAccountById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+  /accounts/transactions:
+    get:
+      tags:
+      - Транзакции счетов
+      summary: Получить все транзакции
+      operationId: findAllAccountTransactions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+  /accounts/transactions/{id}:
+    get:
+      tags:
+      - Транзакции счетов
+      summary: Получить тразакцию по id
+      operationId: findAccountTransaction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Транзакция не найдена.
+      security:
+      - Bearer Authentication: []
+  /accounts/balance/{accountId}:
+    get:
+      tags:
+      - Счета
+      summary: Получить баланс счета по id
+      operationId: calcBalance
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+      security:
+      - Bearer Authentication: []
+components:
+  schemas:
+    AccountDTO:
+      required:
+      - currency
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        currency:
+          type: string
+          enum:
+          - BTC
+          - ETH
+          - USDT
+          - XRP
+          - BNB
+          - USDC
+          - DOGE
+          - ADA
+          - SOL
+          - MATIC
+        balance:
+          type: number
+          readOnly: true
+        lastTransactionDate:
+          type: string
+          format: date-time
+          readOnly: true
+        isActive:
+          type: boolean
+          readOnly: true
+        transactionList:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AccountTransaction'
+    AccountTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+          - WITHDRAWAL
+          - DEPOSIT
+        value:
+          type: number
+    AccountTransactionDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - WITHDRAWAL
+          - DEPOSIT
+        value:
+          type: number
+        account:
+          type: string
+          format: uuid
+          readOnly: true
+  securitySchemes:
+    Bearer Authentication:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

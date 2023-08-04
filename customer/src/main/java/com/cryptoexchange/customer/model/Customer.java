@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.net.URL;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -24,4 +25,8 @@ public class Customer {
     private String phoneNumber;
     private String email;
     private URL avatarLink;
+    @ElementCollection
+    @CollectionTable(name = "customer_accounts", joinColumns = @JoinColumn(name = "customer_id"))
+    @Column(name = "account")
+    private List<UUID> accountsList;
 }

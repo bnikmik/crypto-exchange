@@ -38,9 +38,9 @@ public class AccountController {
                     schema = @Schema(implementation = AccountDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
-    public ResponseEntity<?> createAccount(@Valid @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<ResponseWrapper<AccountDTO>> createAccount(@Valid @RequestBody AccountDTO accountDTO) {
         ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createAccount(accountDTO));
-        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+        return ResponseEntity.ok(wrapper);
     }
 
     @PostMapping("/test")

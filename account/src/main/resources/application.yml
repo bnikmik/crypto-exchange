@@ -1,7 +1,7 @@
 spring:
   liquibase:
     enabled: true
-    change-log: classpath:db/liquibase/changelog.xml
+    change-log: classpath:account/liquibase/changelog.xml
     default-schema: customer_schema
     liquibase-schema: liquibase_schema
   datasource:

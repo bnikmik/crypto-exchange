@@ -11,7 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -35,4 +37,6 @@ public class CustomerDTO {
     private String email;
     @ValidURL(message = "URL должен соответстовать типу http://url.com")
     private URL avatarLink;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<UUID> accountsList = Collections.emptyList();
 }

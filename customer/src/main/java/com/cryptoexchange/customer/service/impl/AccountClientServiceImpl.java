@@ -1,9 +1,11 @@
 package com.cryptoexchange.customer.service.impl;
 
+import com.cryptoexchange.common.dto.AccountDTO;
+import com.cryptoexchange.common.dto.Currency;
+import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
-import com.cryptoexchange.customer.dto.AccountDTO;
 import com.cryptoexchange.customer.service.AccountClientService;
-import net.minidev.json.JSONObject;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,25 +15,28 @@ public class AccountClientServiceImpl implements AccountClientService {
 
     private final KeycloakTokenService keycloakTokenService = new KeycloakTokenService();
 
-    public AccountDTO getDto() {
+    public AccountDTO createAccount(Currency currency) {
 
-        String otherMicroserviceUrl = "http://localhost:8082/accounts/test";
+        String otherMicroserviceUrl = "http://localhost:8082/accounts";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("currency", "BTC");
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(jsonObject.toString(), headers);
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setCurrency(currency);
 
-        ResponseEntity<AccountDTO> responseEntity = new RestTemplate().exchange(
+        ParameterizedTypeReference<ResponseWrapper<AccountDTO>> responseType =
+                new ParameterizedTypeReference<>(){};
+
+        HttpEntity<AccountDTO> requestEntity = new HttpEntity<>(accountDTO, headers);
+
+        ResponseEntity<ResponseWrapper<AccountDTO>> responseEntity = new RestTemplate().exchange(
                 otherMicroserviceUrl,
                 HttpMethod.POST,
                 requestEntity,
-                AccountDTO.class
+                responseType
         );
-        System.out.println();
 
-        return responseEntity.getBody();
+        return responseEntity.getBody().getData();
     }
 }

@@ -1,15 +1,19 @@
 package com.cryptoexchange.customer.service.impl;
 
+import com.cryptoexchange.common.dto.Currency;
 import com.cryptoexchange.common.exception.RecordNotFoundException;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.model.Customer;
 import com.cryptoexchange.customer.repository.CustomerRepository;
+import com.cryptoexchange.customer.service.AccountClientService;
 import com.cryptoexchange.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
@@ -20,13 +24,15 @@ import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository repository;
-
-    private final AccountClientServiceImpl accountClientService;
+    private final AccountClientService accountClientService;
 
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = INSTANCE.toEntity(customerDTO);
-        customer.setFullName(accountClientService.getDto().getId().toString());
+        UUID accountId = accountClientService.createAccount(Currency.BTC).getId();
+        customer.setAccountsList(new ArrayList<>() {{
+            add(accountId);
+        }});
         repository.save(customer);
         return INSTANCE.toDTO(customer);
     }
