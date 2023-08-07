@@ -2,6 +2,7 @@ package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
 import com.cryptoexchange.common.dto.Currency;
+import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
 import com.cryptoexchange.customer.service.AccountClientService;
@@ -30,12 +31,17 @@ public class AccountClientServiceImpl implements AccountClientService {
 
         HttpEntity<AccountDTO> requestEntity = new HttpEntity<>(accountDTO, headers);
 
-        ResponseEntity<ResponseWrapper<AccountDTO>> responseEntity = new RestTemplate().exchange(
-                otherMicroserviceUrl,
-                HttpMethod.POST,
-                requestEntity,
-                responseType
-        );
+        ResponseEntity<ResponseWrapper<AccountDTO>> responseEntity;
+        try {
+            responseEntity = new RestTemplate().exchange(
+                    otherMicroserviceUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    responseType
+            );
+        } catch (Exception exception) {
+            throw new ClientResponseException(exception.getMessage());
+        }
 
         return responseEntity.getBody().getData();
     }

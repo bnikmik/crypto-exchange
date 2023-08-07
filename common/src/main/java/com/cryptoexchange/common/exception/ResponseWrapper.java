@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.Instant;
+import java.util.List;
 
 @XmlRootElement(name = "ok")
 @Getter
@@ -20,4 +21,5 @@ public class ResponseWrapper<T> {
     private Instant timestamp;
     private HttpStatus status;
     private T data;
+    private List<String> errorDetails;
 }

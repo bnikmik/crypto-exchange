@@ -1,7 +1,7 @@
 package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.common.dto.Currency;
-import com.cryptoexchange.common.exception.RecordNotFoundException;
+import com.cryptoexchange.common.exception.types.RecordNotFoundException;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.model.Customer;
 import com.cryptoexchange.customer.repository.CustomerRepository;

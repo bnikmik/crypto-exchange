@@ -1,4 +1,4 @@
-package com.cryptoexchange.common.exception;
+package com.cryptoexchange.common.exception.types;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

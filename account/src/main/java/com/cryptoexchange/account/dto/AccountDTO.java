@@ -1,6 +1,5 @@
 package com.cryptoexchange.account.dto;
 
-import com.cryptoexchange.account.model.AccountTransaction;
 import com.cryptoexchange.account.model.Currency;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -27,5 +26,5 @@ public class AccountDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean isActive = true;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<AccountTransaction> transactionList = Collections.emptyList();
+    private List<AccountTransactionDTO> transactionList = Collections.emptyList();
 }

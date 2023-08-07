@@ -7,7 +7,7 @@ import com.cryptoexchange.account.model.AccountTransaction;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.repository.AccountTransactionRepository;
 import com.cryptoexchange.account.service.AccountTransactionService;
-import com.cryptoexchange.common.exception.RecordNotFoundException;
+import com.cryptoexchange.common.exception.types.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

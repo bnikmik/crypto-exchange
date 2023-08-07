@@ -1,7 +1,8 @@
 package com.cryptoexchange.customer.controller.advice;
 
-import com.cryptoexchange.common.exception.ExceptionWrapper;
-import com.cryptoexchange.common.exception.RecordNotFoundException;
+import com.cryptoexchange.common.exception.types.ClientResponseException;
+import com.cryptoexchange.common.exception.types.RecordNotFoundException;
+import com.cryptoexchange.common.exception.ResponseWrapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +23,30 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<Object> handleNotFoundException(
             RecordNotFoundException ex) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
-        ExceptionWrapper error = new ExceptionWrapper(Instant.now(), HttpStatus.BAD_REQUEST, details);
+        List<String> errorDetails = new ArrayList<>();
+        errorDetails.add(ex.getLocalizedMessage());
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.NOT_FOUND, null, errorDetails);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ClientResponseException.class)
+    public final ResponseEntity<Object> handleClientResponseException(
+            ClientResponseException ex) {
+        List<String> errorDetails = new ArrayList<>();
+        errorDetails.add(ex.getLocalizedMessage());
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<String> details = new ArrayList<>();
+        List<String> errorDetails = new ArrayList<>();
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            details.add(error.getDefaultMessage());
+            errorDetails.add(error.getDefaultMessage());
         }
-        ExceptionWrapper error = new ExceptionWrapper(Instant.now(), HttpStatus.BAD_REQUEST, details);
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
