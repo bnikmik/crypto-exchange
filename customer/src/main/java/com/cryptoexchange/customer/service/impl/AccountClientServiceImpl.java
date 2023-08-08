@@ -39,8 +39,8 @@ public class AccountClientServiceImpl implements AccountClientService {
                     requestEntity,
                     responseType
             );
-        } catch (Exception exception) {
-            throw new ClientResponseException(exception.getMessage());
+        } catch (Exception ex) {
+            throw new ClientResponseException(ex.getMessage());
         }
 
         return responseEntity.getBody().getData();
