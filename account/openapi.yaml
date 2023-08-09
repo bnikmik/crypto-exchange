@@ -39,14 +39,14 @@ paths:
       responses:
         "400":
           description: Введены неверные параметры.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
   /accounts/transactions/{accountId}:
@@ -71,36 +71,16 @@ paths:
       responses:
         "400":
           description: Введены неверные параметры.
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
-      security:
-      - Bearer Authentication: []
-  /accounts/test:
-    post:
-      tags:
-      - Счета
-      operationId: createAccountTest
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AccountDTO'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
       security:
       - Bearer Authentication: []
   /accounts/{id}:
@@ -117,16 +97,16 @@ paths:
           type: string
           format: uuid
       responses:
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
     delete:
@@ -142,12 +122,12 @@ paths:
           type: string
           format: uuid
       responses:
-        "200":
-          description: OK
         "404":
           description: Счет не найден.
         "401":
           description: Не авторизован. Используйте обновленный bearer токен.
+        "200":
+          description: OK
       security:
       - Bearer Authentication: []
   /accounts/transactions:
@@ -183,16 +163,16 @@ paths:
           type: string
           format: uuid
       responses:
+        "404":
+          description: Транзакция не найдена.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
-        "404":
-          description: Транзакция не найдена.
       security:
       - Bearer Authentication: []
   /accounts/balance/{accountId}:
@@ -209,16 +189,16 @@ paths:
           type: string
           format: uuid
       responses:
+        "404":
+          description: Счет не найден.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
       security:
       - Bearer Authentication: []
 components:
@@ -259,23 +239,7 @@ components:
           type: array
           readOnly: true
           items:
-            $ref: '#/components/schemas/AccountTransaction'
-    AccountTransaction:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdAt:
-          type: string
-          format: date-time
-        type:
-          type: string
-          enum:
-          - WITHDRAWAL
-          - DEPOSIT
-        value:
-          type: number
+            $ref: '#/components/schemas/AccountTransactionDTO'
     AccountTransactionDTO:
       type: object
       properties:

@@ -1,6 +1,8 @@
 package com.cryptoexchange.deal.controller.advice;
 
 import com.cryptoexchange.common.exception.ResponseWrapper;
+import com.cryptoexchange.common.exception.types.AccountExistsException;
+import com.cryptoexchange.common.exception.types.InsufficientRightsException;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,24 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetails.add(ex.getLocalizedMessage());
         ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.NOT_FOUND, null, errorDetails);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InsufficientRightsException.class)
+    public final ResponseEntity<Object> handleInsufficientRightsException(
+            InsufficientRightsException ex) {
+        List<String> errorDetails = new ArrayList<>();
+        errorDetails.add(ex.getLocalizedMessage());
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.FORBIDDEN, null, errorDetails);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AccountExistsException.class)
+    public final ResponseEntity<Object> handleAccountExistsException(
+            AccountExistsException ex) {
+        List<String> errorDetails = new ArrayList<>();
+        errorDetails.add(ex.getLocalizedMessage());
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override

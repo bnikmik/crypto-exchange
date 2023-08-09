@@ -1,6 +1,7 @@
 package com.cryptoexchange.deal.dto;
 
-import com.cryptoexchange.deal.model.Currency;
+
+import com.cryptoexchange.common.dto.Currency;
 import com.cryptoexchange.deal.model.DealStatus;
 import com.cryptoexchange.deal.model.DealType;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,5 +1,6 @@
 package com.cryptoexchange.deal.model;
 
+import com.cryptoexchange.common.dto.Currency;
 import lombok.Getter;
 import lombok.Setter;
 
