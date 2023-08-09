@@ -1,6 +1,7 @@
 package com.cryptoexchange.customer.controller.advice;
 
 import com.cryptoexchange.common.exception.ResponseWrapper;
+import com.cryptoexchange.common.exception.types.AccountExistsException;
 import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +33,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ClientResponseException.class)
     public final ResponseEntity<Object> handleClientResponseException(
             ClientResponseException ex) {
+        List<String> errorDetails = new ArrayList<>();
+        errorDetails.add(ex.getLocalizedMessage());
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccountExistsException.class)
+    public final ResponseEntity<Object> handleAccountExistsException(
+            AccountExistsException ex) {
         List<String> errorDetails = new ArrayList<>();
         errorDetails.add(ex.getLocalizedMessage());
         ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);

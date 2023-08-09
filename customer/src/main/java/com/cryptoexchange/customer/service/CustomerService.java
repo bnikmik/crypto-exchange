@@ -1,5 +1,6 @@
 package com.cryptoexchange.customer.service;
 
+import com.cryptoexchange.common.dto.Currency;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 public interface CustomerService {
 
     CustomerDTO createCustomer(CustomerDTO customerDTO);
+
+    CustomerDTO addAccountForCustomerById(Long id, Currency currency);
 
     CustomerDTO findCustomerById(Long id);
 

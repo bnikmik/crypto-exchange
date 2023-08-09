@@ -6,4 +6,5 @@ import com.cryptoexchange.common.dto.Currency;
 public interface AccountClientService {
 
     AccountDTO createAccount(Currency currency);
+
 }

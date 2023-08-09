@@ -6,6 +6,7 @@ import com.cryptoexchange.deal.dto.DealStatusDTO;
 import com.cryptoexchange.deal.model.Deal;
 import com.cryptoexchange.deal.model.DealStatus;
 import com.cryptoexchange.deal.repository.DealRepository;
+import com.cryptoexchange.deal.service.CustomerClientService;
 import com.cryptoexchange.deal.service.DealService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,12 @@ public class DealServiceImpl implements DealService {
 
     private final DealRepository repository;
 
+    private final CustomerClientService customerClientService;
+
     @Override
     public DealDTO createNewDeal(DealDTO dealDTO) {
         Deal deal = INSTANCE.toEntity(dealDTO);
+        customerClientService.findCustomerById(deal.getBuyerId());
         repository.save(deal);
         return INSTANCE.toDTO(deal);
     }

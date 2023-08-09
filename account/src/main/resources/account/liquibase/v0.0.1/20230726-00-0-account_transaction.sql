@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset bnikmik:4
+-- changeset bnikmik:5
 
 create table account_schema.account_transaction
 (

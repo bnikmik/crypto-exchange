@@ -1,5 +1,6 @@
 package com.cryptoexchange.customer.controller;
 
+import com.cryptoexchange.common.dto.Currency;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.service.CustomerService;
@@ -38,6 +39,19 @@ public class CustomerController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createCustomer(customerDTO),null);
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/add-account")
+    @Operation(summary = "Добавить пользователю счет по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CustomerDTO.class))}),
+            @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
+    public ResponseEntity<?> addAccountForCustomerById(@PathVariable Long id, @RequestParam Currency currency) {
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.addAccountForCustomerById(id, currency),null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 

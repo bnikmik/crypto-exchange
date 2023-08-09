@@ -7,14 +7,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AccountMapper {
 
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "transactionList", ignore = true)
     AccountDTO toDTO(Account account);
 
+    @Mapping(target = "transactionList", ignore = true)
     Account toEntity(AccountDTO accountDTO);
 
     BalanceDTO toBalanceDTO(Account account);

@@ -23,9 +23,9 @@ public class Deal {
     @Enumerated(EnumType.STRING)
     private Currency currency;
     private BigDecimal balance;
-    private UUID sellerId;
-    private UUID buyerId;
-    private UUID guarantorId;
+    private Long sellerId;
+    private Long buyerId;
+    private Long guarantorId;
     @ElementCollection
     @CollectionTable(name = "deal_status_time", joinColumns = @JoinColumn(name = "deal_id"))
     @MapKeyEnumerated(EnumType.STRING)

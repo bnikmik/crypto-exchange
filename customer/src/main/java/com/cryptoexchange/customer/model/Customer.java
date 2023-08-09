@@ -1,10 +1,12 @@
 package com.cryptoexchange.customer.model;
 
+import com.cryptoexchange.common.dto.Currency;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +29,7 @@ public class Customer {
     private URL avatarLink;
     @ElementCollection
     @CollectionTable(name = "customer_accounts", joinColumns = @JoinColumn(name = "customer_id"))
-    @Column(name = "account")
-    private List<UUID> accountsList;
+    @MapKeyEnumerated(EnumType.STRING)
+    @MapKeyColumn(name = "currency")
+    private Map<Currency, UUID> customerAccounts;
 }

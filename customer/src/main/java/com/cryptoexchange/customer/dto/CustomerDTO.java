@@ -1,6 +1,7 @@
 package com.cryptoexchange.customer.dto;
 
 import com.cryptoexchange.common.validator.ValidURL;
+import com.cryptoexchange.customer.model.Currency;
 import com.cryptoexchange.customer.model.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -10,10 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -38,5 +36,5 @@ public class CustomerDTO {
     @ValidURL(message = "URL должен соответстовать типу http://url.com")
     private URL avatarLink;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<UUID> accountsList = Collections.emptyList();
+    private Map<Currency, UUID> customerAccounts = Collections.emptyMap();
 }
