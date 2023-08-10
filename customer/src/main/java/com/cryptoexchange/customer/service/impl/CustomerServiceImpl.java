@@ -2,7 +2,7 @@ package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
 import com.cryptoexchange.common.dto.Currency;
-import com.cryptoexchange.common.exception.types.AccountExistsException;
+import com.cryptoexchange.common.exception.types.AccountBadRequestException;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.model.Customer;
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO addAccountForCustomerById(Long id, Currency currency) {
         Customer customer = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Пользователь с ID " + id + " не найден"));
         if (customer.getCustomerAccounts().containsKey(currency))
-            throw new AccountExistsException("Счет с типом валюты " + currency + " уже существует");
+            throw new AccountBadRequestException("Счет с типом валюты " + currency + " уже существует");
         AccountDTO accountDTO = accountClientService.createAccount(currency);
         customer.getCustomerAccounts().put(accountDTO.getCurrency(), accountDTO.getId());
         repository.save(customer);

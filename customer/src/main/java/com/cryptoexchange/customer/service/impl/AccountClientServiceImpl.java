@@ -6,15 +6,17 @@ import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
 import com.cryptoexchange.customer.service.AccountClientService;
+import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@AllArgsConstructor
 public class AccountClientServiceImpl implements AccountClientService {
 
-    private final KeycloakTokenService keycloakTokenService = new KeycloakTokenService();
+    private final KeycloakTokenService keycloakTokenService;
 
     public AccountDTO createAccount(Currency currency) {
 

@@ -10,7 +10,7 @@ public interface AccountService {
 
     AccountDTO createAccount(AccountDTO accountDTO);
 
-    AccountDTO findAccount(UUID id);
+    AccountDTO findAccountById(UUID id);
 
     List<AccountDTO> findAllAccounts();
 

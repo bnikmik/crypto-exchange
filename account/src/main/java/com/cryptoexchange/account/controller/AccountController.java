@@ -50,8 +50,8 @@ public class AccountController {
                     schema = @Schema(implementation = AccountDTO.class))}),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Счет не найден.", content = @Content)})
-    public ResponseEntity<?> findAccount(@PathVariable UUID id) {
-        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAccount(id),null);
+    public ResponseEntity<?> findAccountById(@PathVariable UUID id) {
+        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAccountById(id),null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 

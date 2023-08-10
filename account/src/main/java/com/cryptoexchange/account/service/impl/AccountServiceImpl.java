@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public AccountDTO findAccount(UUID id) {
+    public AccountDTO findAccountById(UUID id) {
         Account account = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + id + " не найден"));
         return INSTANCE.toDTO(account);
     }
