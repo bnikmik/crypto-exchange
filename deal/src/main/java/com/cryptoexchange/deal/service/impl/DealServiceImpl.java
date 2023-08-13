@@ -2,12 +2,15 @@ package com.cryptoexchange.deal.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
 import com.cryptoexchange.common.dto.CustomerDTO;
-import com.cryptoexchange.common.model.Role;
 import com.cryptoexchange.common.exception.types.AccountBadRequestException;
+import com.cryptoexchange.common.exception.types.DealBadStatusException;
 import com.cryptoexchange.common.exception.types.InsufficientRightsException;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
+import com.cryptoexchange.common.model.Currency;
+import com.cryptoexchange.common.model.DealStatus;
+import com.cryptoexchange.common.model.Role;
+import com.cryptoexchange.common.model.TransactionType;
 import com.cryptoexchange.deal.dto.DealDTO;
-import com.cryptoexchange.deal.dto.DealStatusDTO;
 import com.cryptoexchange.deal.model.Deal;
 import com.cryptoexchange.deal.repository.DealRepository;
 import com.cryptoexchange.deal.service.AccountClientService;
@@ -31,29 +34,39 @@ public class DealServiceImpl implements DealService {
     private final CustomerClientService customerClientService;
     private final AccountClientService accountClientService;
 
+    private void validateCustomerAccount(CustomerDTO customerDTO, Currency currency) {
+        if (!customerDTO.getCustomerAccounts().containsKey(currency))
+            throw new AccountBadRequestException("У пользователя с ID " + customerDTO.getId() +
+                    " счет с валютой " + currency + " не найден");
+    }
+
+    private void validateAccountBalance(CustomerDTO customerDTO, Currency currency, BigDecimal balance) {
+        AccountDTO sellerAccount = accountClientService
+                .findAccountById(customerDTO.getCustomerAccounts().get(currency));
+
+        if (compareToBigDecimal(sellerAccount.getBalance(), balance))
+            throw new AccountBadRequestException("У продавца с ID " + customerDTO.getId() +
+                    " не достаточно средств на счете " + currency + " для проведения сделки");
+    }
+
+    private void validateCustomerRole(CustomerDTO customerDTO) {
+        if (!customerDTO.getRolesList().contains(Role.MODERATOR))
+            throw new InsufficientRightsException("У пользователя с ID " + customerDTO.getId() +
+                    " не достаточно прав, чтобы быть гарантом сделки");
+    }
+
     @Override
     public DealDTO createNewDeal(DealDTO dealDTO) {
         Deal deal = INSTANCE.toEntity(dealDTO);
 
         CustomerDTO buyer = customerClientService.findCustomerById(deal.getBuyerId());
-//        if (!buyer.getCustomerAccounts().containsKey(deal.getCurrency())) throw
-        AccountDTO buyerAccount = accountClientService
-                .findAccountById(buyer.getCustomerAccounts().get(deal.getCurrency()))
-                .orElseThrow(() -> new AccountBadRequestException("У пользователя с ID " + buyer.getId() +
-                        " счет с валютой " + deal.getCurrency() + " не найден"));
+        validateCustomerAccount(buyer, deal.getCurrency());
 
         CustomerDTO seller = customerClientService.findCustomerById(deal.getSellerId());
-        AccountDTO sellerAccount = accountClientService
-                .findAccountById(seller.getCustomerAccounts().get(deal.getCurrency()))
-                .orElseThrow(() -> new AccountBadRequestException("У пользователя с ID " + seller.getId() +
-                        " счет с валютой " + deal.getCurrency() + " не найден"));
-        if (compareToBigDecimal(sellerAccount.getBalance(), deal.getBalance()))
-            throw new AccountBadRequestException("У продавца с ID " + seller.getId() + " не достаточно средств на счете " + deal.getCurrency() + " для проведения сделки");
+        validateCustomerAccount(seller, deal.getCurrency());
 
         CustomerDTO guarantor = customerClientService.findCustomerById(deal.getGuarantorId());
-        if (!guarantor.getRolesList().contains(Role.MODERATOR))
-            throw new InsufficientRightsException("У пользователя с ID " + guarantor.getId() +
-                    " не достаточно прав, чтобы быть гарантом сделки");
+        validateCustomerRole(guarantor);
 
         repository.save(deal);
         return INSTANCE.toDTO(deal);
@@ -63,11 +76,51 @@ public class DealServiceImpl implements DealService {
         return first.compareTo(second) < 0;
     }
 
+    private void validateDealStatus(DealStatus dealStatus, DealStatus previous) {
+        if (!dealStatus.equals(previous))
+            throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
+
+    }
+
     @Override
-    public DealDTO updateDealStatusById(UUID dealId, DealStatusDTO dealStatusDTO) {
+    public DealDTO updateDealStatusById(UUID dealId, DealStatus dealStatus) {
+        if (dealStatus.equals(DealStatus.STARTED))
+            throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
+
         Deal deal = repository.findById(dealId).orElseThrow(() -> new RecordNotFoundException("Сделка с ID " + dealId + " не найдена"));
-        Deal tmp = INSTANCE.toNewStatusEntity(dealStatusDTO);
-        deal.setDealStatus(tmp.getDealStatus());
+        CustomerDTO buyer = customerClientService.findCustomerById(deal.getBuyerId());
+        CustomerDTO seller = customerClientService.findCustomerById(deal.getSellerId());
+
+
+        switch (dealStatus) {
+            case FUNDS_ON_HOLD -> {
+                validateDealStatus(deal.getDealStatus(), DealStatus.STARTED);
+                validateAccountBalance(seller, deal.getCurrency(), deal.getBalance());
+                accountClientService.makeTransaction(
+                        seller.getCustomerAccounts().get(deal.getCurrency()),
+                        TransactionType.WITHDRAWAL,
+                        deal.getBalance()
+                );
+            }
+            case DONE -> {
+                validateDealStatus(deal.getDealStatus(), DealStatus.FUNDS_ON_HOLD);
+                accountClientService.makeTransaction(
+                        buyer.getCustomerAccounts().get(deal.getCurrency()),
+                        TransactionType.DEPOSIT,
+                        deal.getBalance()
+                );
+            }
+            case CANCELED -> {
+                validateDealStatus(deal.getDealStatus(), DealStatus.FUNDS_ON_HOLD);
+                accountClientService.makeTransaction(
+                        seller.getCustomerAccounts().get(deal.getCurrency()),
+                        TransactionType.DEPOSIT,
+                        deal.getBalance()
+                );
+            }
+        }
+
+        deal.setDealStatus(dealStatus);
         Map<DealStatus, Instant> dealStatusTime = deal.getDealStatusTime();
         dealStatusTime.put(deal.getDealStatus(), Instant.now());
         deal.setDealStatusTime(dealStatusTime);

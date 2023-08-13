@@ -2,6 +2,8 @@ package com.cryptoexchange.deal.dto;
 
 
 import com.cryptoexchange.common.model.Currency;
+import com.cryptoexchange.common.model.DealStatus;
+import com.cryptoexchange.common.model.DealType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +24,7 @@ public class DealDTO {
     @NotNull(message = "DealType не может быть незаполненным")
     private DealType dealType;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private DealStatus dealStatus = DealStatus.NULL;
+    private DealStatus dealStatus = DealStatus.STARTED;
     @NotNull(message = "Currency не может быть незаполненным")
     private Currency currency;
     @Positive

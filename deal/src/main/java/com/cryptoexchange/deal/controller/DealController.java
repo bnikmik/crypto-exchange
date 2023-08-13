@@ -1,8 +1,8 @@
 package com.cryptoexchange.deal.controller;
 
 import com.cryptoexchange.common.exception.ResponseWrapper;
+import com.cryptoexchange.common.model.DealStatus;
 import com.cryptoexchange.deal.dto.DealDTO;
-import com.cryptoexchange.deal.dto.DealStatusDTO;
 import com.cryptoexchange.deal.service.DealService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,8 +31,8 @@ public class DealController {
     }
 
     @PutMapping("/{dealId}")
-    public ResponseEntity<?> updateCustomerById(@PathVariable UUID dealId, @Valid @RequestBody DealStatusDTO dealStatusDTO) {
-        ResponseWrapper<DealDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.updateDealStatusById(dealId, dealStatusDTO), null);
+    public ResponseEntity<?> updateCustomerById(@PathVariable UUID dealId, @Valid @RequestParam DealStatus dealStatus) {
+        ResponseWrapper<DealDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.updateDealStatusById(dealId, dealStatus), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 }

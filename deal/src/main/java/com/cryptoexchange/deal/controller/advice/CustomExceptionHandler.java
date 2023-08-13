@@ -1,10 +1,7 @@
 package com.cryptoexchange.deal.controller.advice;
 
 import com.cryptoexchange.common.exception.ResponseWrapper;
-import com.cryptoexchange.common.exception.types.AccountBadRequestException;
-import com.cryptoexchange.common.exception.types.ClientResponseException;
-import com.cryptoexchange.common.exception.types.InsufficientRightsException;
-import com.cryptoexchange.common.exception.types.RecordNotFoundException;
+import com.cryptoexchange.common.exception.types.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +40,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccountBadRequestException.class)
     public final ResponseEntity<Object> handleAccountExistsException(
             AccountBadRequestException ex) {
+        List<String> errorDetails = new ArrayList<>();
+        errorDetails.add(ex.getLocalizedMessage());
+        ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DealBadStatusException.class)
+    public final ResponseEntity<Object> handleDealBadStatusException(
+            DealBadStatusException ex) {
         List<String> errorDetails = new ArrayList<>();
         errorDetails.add(ex.getLocalizedMessage());
         ResponseWrapper<?> error = new ResponseWrapper<>(Instant.now(), HttpStatus.BAD_REQUEST, null, errorDetails);

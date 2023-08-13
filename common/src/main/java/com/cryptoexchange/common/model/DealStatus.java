@@ -1,5 +1,9 @@
 package com.cryptoexchange.common.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum DealStatus {
-    NULL, STARTED, FUNDS_ON_HOLD, DONE, CANCELED
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    STARTED,
+    FUNDS_ON_HOLD, DONE, CANCELED
 }

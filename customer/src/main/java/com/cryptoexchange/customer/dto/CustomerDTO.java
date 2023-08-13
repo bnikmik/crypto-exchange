@@ -1,5 +1,6 @@
 package com.cryptoexchange.customer.dto;
 
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.common.model.Role;
 import com.cryptoexchange.common.validator.ValidURL;
 import com.fasterxml.jackson.annotation.JsonProperty;
