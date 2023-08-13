@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UrlValidator.class)
 public @interface ValidURL {
     String message() default "Invalid URL";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

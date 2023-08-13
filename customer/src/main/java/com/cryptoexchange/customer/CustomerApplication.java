@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackageClasses = {CustomerApplication.class,KeycloakTokenService.class})
+@ComponentScan(basePackageClasses = {CustomerApplication.class, KeycloakTokenService.class})
 public class CustomerApplication {
 
     public static void main(String[] args) {

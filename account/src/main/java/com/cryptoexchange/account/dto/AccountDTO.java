@@ -1,6 +1,6 @@
 package com.cryptoexchange.account.dto;
 
-import com.cryptoexchange.account.model.Currency;
+import com.cryptoexchange.common.model.Currency;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

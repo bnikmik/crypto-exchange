@@ -3,13 +3,13 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://localhost:8082
-  description: Generated server url
+  - url: http://localhost:8082
+    description: Generated server url
 paths:
   /accounts:
     get:
       tags:
-      - Счета
+        - Счета
       summary: Получить все счета
       operationId: findAllAccounts
       responses:
@@ -24,10 +24,10 @@ paths:
         "401":
           description: Не авторизован. Используйте обновленный bearer токен.
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
     post:
       tags:
-      - Счета
+        - Счета
       summary: Создать новый счет
       operationId: createAccount
       requestBody:
@@ -48,20 +48,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /accounts/transactions/{accountId}:
     post:
       tags:
-      - Транзакции счетов
+        - Транзакции счетов
       summary: Сделать транзакцию у счета по id
       operationId: makeTransaction
       parameters:
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           application/json:
@@ -82,20 +82,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /accounts/{id}:
     get:
       tags:
-      - Счета
+        - Счета
       summary: Получить счет по id
       operationId: findAccount
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         "404":
           description: Счет не найден.
@@ -108,19 +108,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
     delete:
       tags:
-      - Счета
+        - Счета
       summary: Деактивировать счет по id
       operationId: deleteAccountById
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         "404":
           description: Счет не найден.
@@ -129,11 +129,11 @@ paths:
         "200":
           description: OK
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /accounts/transactions:
     get:
       tags:
-      - Транзакции счетов
+        - Транзакции счетов
       summary: Получить все транзакции
       operationId: findAllAccountTransactions
       responses:
@@ -148,20 +148,20 @@ paths:
         "401":
           description: Не авторизован. Используйте обновленный bearer токен.
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /accounts/transactions/{id}:
     get:
       tags:
-      - Транзакции счетов
+        - Транзакции счетов
       summary: Получить тразакцию по id
       operationId: findAccountTransaction
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         "404":
           description: Транзакция не найдена.
@@ -174,20 +174,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /accounts/balance/{accountId}:
     get:
       tags:
-      - Счета
+        - Счета
       summary: Получить баланс счета по id
       operationId: calcBalance
       parameters:
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         "404":
           description: Счет не найден.
@@ -200,12 +200,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
 components:
   schemas:
     AccountDTO:
       required:
-      - currency
+        - currency
       type: object
       properties:
         id:
@@ -215,16 +215,16 @@ components:
         currency:
           type: string
           enum:
-          - BTC
-          - ETH
-          - USDT
-          - XRP
-          - BNB
-          - USDC
-          - DOGE
-          - ADA
-          - SOL
-          - MATIC
+            - BTC
+            - ETH
+            - USDT
+            - XRP
+            - BNB
+            - USDC
+            - DOGE
+            - ADA
+            - SOL
+            - MATIC
         balance:
           type: number
           readOnly: true
@@ -254,8 +254,8 @@ components:
         type:
           type: string
           enum:
-          - WITHDRAWAL
-          - DEPOSIT
+            - WITHDRAWAL
+            - DEPOSIT
         value:
           type: number
         account:

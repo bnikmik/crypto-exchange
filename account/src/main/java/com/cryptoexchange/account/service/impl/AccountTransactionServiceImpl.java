@@ -45,13 +45,13 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
         AccountTransaction accountTransaction = INSTANCE.toEntity(accountTransactionDTO);
         accountTransaction.setAccount(account);
         repository.save(accountTransaction);
-        account.setBalance(calcBalance(accountId,account.getBalance(),account.getLastTransactionDate()));
+        account.setBalance(calcBalance(accountId, account.getBalance(), account.getLastTransactionDate()));
         account.setLastTransactionDate(accountTransaction.getCreatedAt());
         accountRepository.save(account);
         return INSTANCE.toTransactionIdDTO(accountTransaction);
     }
 
     private BigDecimal calcBalance(UUID accountId, BigDecimal balance, Instant lastTransactionDate) {
-        return repository.calcBalance(accountId,balance,lastTransactionDate);
+        return repository.calcBalance(accountId, balance, lastTransactionDate);
     }
 }

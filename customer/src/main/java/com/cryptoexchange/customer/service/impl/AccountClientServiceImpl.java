@@ -1,9 +1,9 @@
 package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
-import com.cryptoexchange.common.dto.Currency;
-import com.cryptoexchange.common.exception.types.ClientResponseException;
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.common.exception.ResponseWrapper;
+import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
 import com.cryptoexchange.customer.service.AccountClientService;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,8 @@ public class AccountClientServiceImpl implements AccountClientService {
         accountDTO.setCurrency(currency);
 
         ParameterizedTypeReference<ResponseWrapper<AccountDTO>> responseType =
-                new ParameterizedTypeReference<>(){};
+                new ParameterizedTypeReference<>() {
+                };
 
         HttpEntity<AccountDTO> requestEntity = new HttpEntity<>(accountDTO, headers);
 

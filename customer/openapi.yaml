@@ -3,22 +3,22 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://localhost:8081
-  description: Generated server url
+  - url: http://localhost:8081
+    description: Generated server url
 paths:
   /customers/{id}:
     get:
       tags:
-      - Пользователи
+        - Пользователи
       summary: Получить пользователя по id
       operationId: findCustomerById
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         "401":
           description: Не авторизован. Используйте обновленный bearer токен.
@@ -31,19 +31,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
     put:
       tags:
-      - Пользователи
+        - Пользователи
       summary: Обновить пользователя по id
       operationId: updateCustomerById
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -64,19 +64,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
     delete:
       tags:
-      - Пользователи
+        - Пользователи
       summary: Деактивировать пользователя по id
       operationId: deleteCustomerById
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: OK
@@ -85,36 +85,36 @@ paths:
         "404":
           description: Пользователь не найден.
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /customers/{id}/add-account:
     put:
       tags:
-      - Пользователи
+        - Пользователи
       summary: Добавить пользователю счет по id
       operationId: addAccountForCustomerById
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: currency
-        in: query
-        required: true
-        schema:
-          type: string
-          enum:
-          - BTC
-          - ETH
-          - USDT
-          - XRP
-          - BNB
-          - USDC
-          - DOGE
-          - ADA
-          - SOL
-          - MATIC
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: currency
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - BTC
+              - ETH
+              - USDT
+              - XRP
+              - BNB
+              - USDC
+              - DOGE
+              - ADA
+              - SOL
+              - MATIC
       responses:
         "400":
           description: Введены неверные параметры.
@@ -129,11 +129,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
   /customers:
     get:
       tags:
-      - Пользователи
+        - Пользователи
       summary: Получить всех пользоваталей
       operationId: findAllCustomers
       responses:
@@ -148,10 +148,10 @@ paths:
         "401":
           description: Не авторизован. Используйте обновленный bearer токен.
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
     post:
       tags:
-      - Пользователи
+        - Пользователи
       summary: Создать нового пользователя
       operationId: createCustomer
       requestBody:
@@ -172,14 +172,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerDTO'
       security:
-      - Bearer Authentication: []
+        - Bearer Authentication: [ ]
 components:
   schemas:
     CustomerDTO:
       required:
-      - email
-      - fullName
-      - login
+        - email
+        - fullName
+        - login
       type: object
       properties:
         id:
@@ -196,12 +196,12 @@ components:
           items:
             type: string
             enum:
-            - TECHNICAL
-            - PHYSICAL
-            - USER
-            - MODERATOR
-            - ADMIN
-            - MARKET
+              - TECHNICAL
+              - PHYSICAL
+              - USER
+              - MODERATOR
+              - ADMIN
+              - MARKET
         isVerified:
           type: boolean
           readOnly: true

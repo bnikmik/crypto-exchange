@@ -1,8 +1,7 @@
 package com.cryptoexchange.customer.dto;
 
+import com.cryptoexchange.common.model.Role;
 import com.cryptoexchange.common.validator.ValidURL;
-import com.cryptoexchange.customer.model.Currency;
-import com.cryptoexchange.customer.model.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +22,15 @@ public class CustomerDTO {
     @NotBlank(message = "Full name не может быть пустым")
     private String fullName;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Role> rolesList = new ArrayList<>(){{add(Role.PHYSICAL);add(Role.USER);}};
+    private List<Role> rolesList = new ArrayList<>() {{
+        add(Role.PHYSICAL);
+        add(Role.USER);
+    }};
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean isVerified = false;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean isActive = true;
-    @Pattern(regexp="^[0-9]{10,12}$", message="Номер телефона должен состоять из 10 до 12 цифр")
+    @Pattern(regexp = "^[0-9]{10,12}$", message = "Номер телефона должен состоять из 10 до 12 цифр")
     private String phoneNumber;
     @Email(message = "Email должен быть корректным: name@email.com")
     @NotBlank(message = "Email не может быть пустым")

@@ -27,7 +27,6 @@ public class KeycloakTokenService {
     private Instant refreshTokenExpirationTime;
 
 
-
     public String getToken() {
         if (accessToken == null || accessTokenExpirationTime.isBefore(Instant.now())) {
             postAccessToken();
@@ -52,14 +51,14 @@ public class KeycloakTokenService {
             params.add("password", "1234");
         }
 
-        HttpEntity<MultiValueMap<String, String>> tokenRequest  = new HttpEntity<>(params, headers);
+        HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(params, headers);
         ResponseEntity<AccessTokenResponse> tokenResponse = new RestTemplate()
                 .postForEntity(KEYCLOAK_URL, tokenRequest, AccessTokenResponse.class);
 
         if (tokenResponse.getStatusCode().is2xxSuccessful()) {
             AccessTokenResponse response = tokenResponse.getBody();
-            accessTokenExpirationTime  = Instant.now().plus(275, ChronoUnit.SECONDS);
-            refreshTokenExpirationTime  = Instant.now().plus(1775, ChronoUnit.SECONDS);
+            accessTokenExpirationTime = Instant.now().plus(275, ChronoUnit.SECONDS);
+            refreshTokenExpirationTime = Instant.now().plus(1775, ChronoUnit.SECONDS);
             accessToken = Objects.requireNonNull(response).getToken();
             refreshToken = response.getRefreshToken();
         } else {

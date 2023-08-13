@@ -1,5 +1,7 @@
 package com.cryptoexchange.common.dto;
 
+import com.cryptoexchange.common.model.Currency;
+import com.cryptoexchange.common.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 

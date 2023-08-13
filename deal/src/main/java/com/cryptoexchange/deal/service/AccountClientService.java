@@ -1,7 +1,7 @@
 package com.cryptoexchange.deal.service;
 
 import com.cryptoexchange.common.dto.AccountDTO;
-import com.cryptoexchange.common.dto.TransactionType;
+import com.cryptoexchange.common.model.TransactionType;
 
 import java.math.BigDecimal;
 import java.util.Optional;

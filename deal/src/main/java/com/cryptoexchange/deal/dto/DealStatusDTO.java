@@ -1,6 +1,5 @@
 package com.cryptoexchange.deal.dto;
 
-import com.cryptoexchange.deal.model.DealStatus;
 import lombok.Getter;
 import lombok.Setter;
 

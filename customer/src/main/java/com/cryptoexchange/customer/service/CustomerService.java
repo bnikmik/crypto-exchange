@@ -1,6 +1,6 @@
 package com.cryptoexchange.customer.service;
 
-import com.cryptoexchange.common.dto.Currency;
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 
 import java.util.List;

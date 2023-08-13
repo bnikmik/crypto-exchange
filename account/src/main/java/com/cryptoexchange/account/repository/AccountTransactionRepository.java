@@ -25,5 +25,5 @@ public interface AccountTransactionRepository extends JpaRepository<AccountTrans
                                                                       AND at.created_at > :lastTransactionDate) +
                     :balance) as result
                         """, nativeQuery = true)
-    BigDecimal calcBalance(@Param("accountId") UUID accountId,@Param("balance") BigDecimal balance,@Param("lastTransactionDate") Instant lastTransactionDate);
+    BigDecimal calcBalance(@Param("accountId") UUID accountId, @Param("balance") BigDecimal balance, @Param("lastTransactionDate") Instant lastTransactionDate);
 }

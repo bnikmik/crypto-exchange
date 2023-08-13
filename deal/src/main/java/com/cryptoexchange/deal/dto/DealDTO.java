@@ -1,9 +1,7 @@
 package com.cryptoexchange.deal.dto;
 
 
-import com.cryptoexchange.common.dto.Currency;
-import com.cryptoexchange.deal.model.DealStatus;
-import com.cryptoexchange.deal.model.DealType;
+import com.cryptoexchange.common.model.Currency;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

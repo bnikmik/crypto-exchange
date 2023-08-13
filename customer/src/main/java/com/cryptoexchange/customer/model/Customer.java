@@ -1,6 +1,7 @@
 package com.cryptoexchange.customer.model;
 
-import com.cryptoexchange.common.dto.Currency;
+import com.cryptoexchange.common.model.Currency;
+import com.cryptoexchange.common.model.Role;
 import lombok.Data;
 
 import javax.persistence.*;

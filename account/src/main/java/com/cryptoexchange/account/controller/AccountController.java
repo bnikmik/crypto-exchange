@@ -39,7 +39,7 @@ public class AccountController {
             @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> createAccount(@Valid @RequestBody AccountDTO accountDTO) {
-        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createAccount(accountDTO),null);
+        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createAccount(accountDTO), null);
         return ResponseEntity.ok(wrapper);
     }
 
@@ -51,7 +51,7 @@ public class AccountController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Счет не найден.", content = @Content)})
     public ResponseEntity<?> findAccountById(@PathVariable UUID id) {
-        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAccountById(id),null);
+        ResponseWrapper<AccountDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAccountById(id), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -62,7 +62,7 @@ public class AccountController {
                     array = @ArraySchema(schema = @Schema(implementation = AccountDTO.class)))}),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> findAllAccounts() {
-        ResponseWrapper<List<AccountDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAccounts(),null);
+        ResponseWrapper<List<AccountDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAccounts(), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -74,7 +74,7 @@ public class AccountController {
             @ApiResponse(responseCode = "404", description = "Счет не найден.", content = @Content)})
     public ResponseEntity<?> deleteAccountById(@PathVariable UUID id) {
         service.deleteAccountById(id);
-        ResponseWrapper<String> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, "Счет деактивирован",null);
+        ResponseWrapper<String> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, "Счет деактивирован", null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -86,7 +86,7 @@ public class AccountController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Счет не найден.", content = @Content)})
     public ResponseEntity<?> calcBalance(@PathVariable UUID accountId) {
-        ResponseWrapper<BalanceDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.getBalance(accountId),null);
+        ResponseWrapper<BalanceDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.getBalance(accountId), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 }

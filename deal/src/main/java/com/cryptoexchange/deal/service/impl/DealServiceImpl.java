@@ -2,14 +2,13 @@ package com.cryptoexchange.deal.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
 import com.cryptoexchange.common.dto.CustomerDTO;
-import com.cryptoexchange.common.dto.Role;
+import com.cryptoexchange.common.model.Role;
 import com.cryptoexchange.common.exception.types.AccountBadRequestException;
 import com.cryptoexchange.common.exception.types.InsufficientRightsException;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
 import com.cryptoexchange.deal.dto.DealDTO;
 import com.cryptoexchange.deal.dto.DealStatusDTO;
 import com.cryptoexchange.deal.model.Deal;
-import com.cryptoexchange.deal.model.DealStatus;
 import com.cryptoexchange.deal.repository.DealRepository;
 import com.cryptoexchange.deal.service.AccountClientService;
 import com.cryptoexchange.deal.service.CustomerClientService;
@@ -37,6 +36,7 @@ public class DealServiceImpl implements DealService {
         Deal deal = INSTANCE.toEntity(dealDTO);
 
         CustomerDTO buyer = customerClientService.findCustomerById(deal.getBuyerId());
+//        if (!buyer.getCustomerAccounts().containsKey(deal.getCurrency())) throw
         AccountDTO buyerAccount = accountClientService
                 .findAccountById(buyer.getCustomerAccounts().get(deal.getCurrency()))
                 .orElseThrow(() -> new AccountBadRequestException("У пользователя с ID " + buyer.getId() +

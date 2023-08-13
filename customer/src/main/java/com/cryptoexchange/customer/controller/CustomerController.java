@@ -1,6 +1,6 @@
 package com.cryptoexchange.customer.controller;
 
-import com.cryptoexchange.common.dto.Currency;
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.service.CustomerService;
@@ -38,7 +38,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
-        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createCustomer(customerDTO),null);
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createCustomer(customerDTO), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -51,7 +51,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> addAccountForCustomerById(@PathVariable Long id, @RequestParam Currency currency) {
-        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.addAccountForCustomerById(id, currency),null);
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.addAccountForCustomerById(id, currency), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> findCustomerById(@PathVariable Long id) {
-        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findCustomerById(id),null);
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findCustomerById(id), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -75,7 +75,7 @@ public class CustomerController {
 
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> findAllCustomers() {
-        ResponseWrapper<List<CustomerDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllCustomers(),null);
+        ResponseWrapper<List<CustomerDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllCustomers(), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -88,7 +88,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> updateCustomerById(@PathVariable Long id, @Valid @RequestBody CustomerDTO customerDTO) {
-        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.updateCustomerById(id, customerDTO),null);
+        ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.updateCustomerById(id, customerDTO), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -100,7 +100,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
     public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {
         service.deleteCustomerById(id);
-        ResponseWrapper<String> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, "Пользователь деактивирован",null);
+        ResponseWrapper<String> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, "Пользователь деактивирован", null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 }

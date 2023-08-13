@@ -2,5 +2,5 @@
 -- changeset bnikmik:6
 
 ALTER table account_schema.account
-ADD column last_transaction_date timestamp;
+    ADD column last_transaction_date timestamp;
 

@@ -3,7 +3,7 @@ package com.cryptoexchange.deal.service.impl;
 import com.cryptoexchange.common.dto.AccountDTO;
 import com.cryptoexchange.common.dto.AccountTransactionDTO;
 import com.cryptoexchange.common.dto.TransactionIdDTO;
-import com.cryptoexchange.common.dto.TransactionType;
+import com.cryptoexchange.common.model.TransactionType;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
@@ -65,7 +65,7 @@ public class AccountClientServiceImpl implements AccountClientService {
                 new ParameterizedTypeReference<>() {
                 };
 
-        HttpEntity<AccountTransactionDTO> requestEntity = new HttpEntity<>(transactionDTO,headers);
+        HttpEntity<AccountTransactionDTO> requestEntity = new HttpEntity<>(transactionDTO, headers);
 
         ResponseEntity<ResponseWrapper<TransactionIdDTO>> responseEntity;
         try {
