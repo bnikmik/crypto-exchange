@@ -19,6 +19,7 @@
         <module>account</module>
         <module>common</module>
         <module>deal</module>
+        <module>web</module>
     </modules>
 
     <properties>
@@ -29,6 +30,7 @@
         <springdoc-openapi-maven-plugin.version>1.4</springdoc-openapi-maven-plugin.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <common.version>0.0.1-SNAPSHOT</common.version>
+        <keycloak-core.version>19.0.3</keycloak-core.version>
     </properties>
 
     <dependencies>
@@ -105,7 +107,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
-            <version>19.0.3</version>
+            <version>${keycloak-core.version}</version>
         </dependency>
     </dependencies>
 
@@ -114,7 +116,12 @@
             <dependency>
                 <groupId>com.crypto-exchange</groupId>
                 <artifactId>common</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>2.7.9</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

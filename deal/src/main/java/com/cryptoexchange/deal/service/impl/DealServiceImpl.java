@@ -77,20 +77,25 @@ public class DealServiceImpl implements DealService {
     }
 
     private void validateDealStatus(DealStatus dealStatus, DealStatus previous) {
-        if (!dealStatus.equals(previous))
-            throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
-
+        switch (dealStatus) {
+            case FUNDS_ON_HOLD, DONE, CANCELED -> {
+                if (!dealStatus.equals(previous))
+                    throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
+            }
+            case STARTED -> {
+                if (previous.equals(DealStatus.STARTED))
+                    throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
+            }
+        }
     }
 
     @Override
     public DealDTO updateDealStatusById(UUID dealId, DealStatus dealStatus) {
-        if (dealStatus.equals(DealStatus.STARTED))
-            throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
-
+        validateDealStatus(dealStatus, DealStatus.STARTED);
         Deal deal = repository.findById(dealId).orElseThrow(() -> new RecordNotFoundException("Сделка с ID " + dealId + " не найдена"));
+
         CustomerDTO buyer = customerClientService.findCustomerById(deal.getBuyerId());
         CustomerDTO seller = customerClientService.findCustomerById(deal.getSellerId());
-
 
         switch (dealStatus) {
             case FUNDS_ON_HOLD -> {
