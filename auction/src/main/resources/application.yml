@@ -1,0 +1,25 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:auction/liquibase/changelog.xml
+    default-schema: auction_schema
+    liquibase-schema: liquibase_schema
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: auction_schema
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/crypto-exchange
+server:
+  port: 8084

@@ -1,0 +1,18 @@
+server:
+  port: 8090
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/crypto-exchange
+      client:
+        registration:
+          keycloak:
+            client-id: crypto-exchange-client
+            client-secret: Vjg6gw7GiD44UJPwskSKiXWG6UeyghGt
+            scope: openid, crypto-exchange-scope
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/crypto-exchange
+            user-name-attribute: preferred_username
