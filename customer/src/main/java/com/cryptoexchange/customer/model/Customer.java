@@ -14,8 +14,7 @@ import java.util.UUID;
 @Data
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
     private String login;
     private String fullName;
     @ElementCollection(targetClass = Role.class)

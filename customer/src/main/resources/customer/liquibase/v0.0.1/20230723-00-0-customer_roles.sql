@@ -3,7 +3,7 @@
 
 create table customer_schema.customer_roles
 (
-    customer_id bigint not null references customer_schema.customer,
+    customer_id uuid not null references customer_schema.customer,
     role        varchar(255)
 );
 

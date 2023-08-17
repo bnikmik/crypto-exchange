@@ -29,9 +29,9 @@ public class DealDTO {
     private Currency currency;
     @Positive
     private BigDecimal balance;
-    private Long sellerId;
-    private Long buyerId;
-    private Long guarantorId;
+    private UUID sellerId;
+    private UUID buyerId;
+    private UUID guarantorId;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Map<DealStatus, Instant> dealStatusTime = new HashMap<>() {{
         put(dealStatus, Instant.now());

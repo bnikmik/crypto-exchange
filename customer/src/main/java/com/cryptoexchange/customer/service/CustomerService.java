@@ -4,18 +4,19 @@ import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CustomerService {
 
     CustomerDTO createCustomer(CustomerDTO customerDTO);
 
-    CustomerDTO addAccountForCustomerById(Long id, Currency currency);
+    CustomerDTO addAccountForCustomerById(UUID id, Currency currency);
 
-    CustomerDTO findCustomerById(Long id);
+    CustomerDTO findCustomerById(UUID id);
 
     List<CustomerDTO> findAllCustomers();
 
-    CustomerDTO updateCustomerById(Long id, CustomerDTO customer);
+    CustomerDTO updateCustomerById(UUID id, CustomerDTO customer);
 
-    void deleteCustomerById(Long id);
+    void deleteCustomerById(UUID id);
 }

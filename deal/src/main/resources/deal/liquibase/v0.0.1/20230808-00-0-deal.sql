@@ -8,8 +8,8 @@ create table deal_schema.deal
     deal_status  varchar(255),
     currency     varchar(255),
     balance      numeric,
-    buyer_id     bigint,
-    seller_id    bigint,
-    guarantor_id bigint
+    buyer_id     uuid,
+    seller_id    uuid,
+    guarantor_id uuid
 );
 

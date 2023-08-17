@@ -20,6 +20,6 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/auth/realms/crypto-exchange
+          issuer-uri: http://localhost:8080/realms/crypto-exchange
 server:
   port: 8084

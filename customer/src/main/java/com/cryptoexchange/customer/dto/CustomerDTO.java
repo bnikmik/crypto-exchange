@@ -9,15 +9,14 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.net.URL;
 import java.util.*;
 
 @Getter
 @Setter
 public class CustomerDTO {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    //    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private UUID id;
     @NotBlank(message = "Login не может быть пустым")
     private String login;
     @NotBlank(message = "Full name не может быть пустым")
@@ -31,7 +30,7 @@ public class CustomerDTO {
     private Boolean isVerified = false;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean isActive = true;
-    @Pattern(regexp = "^[0-9]{10,12}$", message = "Номер телефона должен состоять из 10 до 12 цифр")
+    //    @Pattern(regexp = "^[0-9]{10,12}$", message = "Номер телефона должен состоять из 10 до 12 цифр")
     private String phoneNumber;
     @Email(message = "Email должен быть корректным: name@email.com")
     @NotBlank(message = "Email не может быть пустым")

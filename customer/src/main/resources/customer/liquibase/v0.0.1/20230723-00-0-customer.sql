@@ -3,7 +3,7 @@
 
 create table customer_schema.customer
 (
-    id           bigserial primary key,
+    id           uuid not null primary key,
     login        varchar(255),
     full_name    varchar(255),
     avatar_link  varchar(255),

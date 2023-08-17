@@ -1,10 +1,10 @@
 package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
-import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.customer.service.AccountClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;

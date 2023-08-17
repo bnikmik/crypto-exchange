@@ -11,7 +11,7 @@ services:
     ports:
       - 5432:5432
   kc:
-    image: quay.io/keycloak/keycloak:legacy
+    image: quay.io/keycloak/keycloak:latest
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: db
@@ -19,10 +19,11 @@ services:
       DB_DATABASE: postgres
       DB_USER: postgres
       DB_PASSWORD: 123
-      KEYCLOAK_HOSTNAME: localhost
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
     ports:
       - 8080:8080
+    command:
+      - start-dev
     depends_on:
       - db

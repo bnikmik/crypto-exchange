@@ -30,10 +30,6 @@ public class AccountClientServiceImpl implements AccountClientService {
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ParameterizedTypeReference<ResponseWrapper<AccountDTO>> responseType =
-                new ParameterizedTypeReference<>() {
-                };
-
         HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
         ResponseEntity<ResponseWrapper<AccountDTO>> responseEntity;
@@ -42,7 +38,8 @@ public class AccountClientServiceImpl implements AccountClientService {
                     otherMicroserviceUrl,
                     HttpMethod.GET,
                     requestEntity,
-                    responseType
+                    new ParameterizedTypeReference<>() {
+                    }
             );
         } catch (Exception ex) {
             throw new ClientResponseException(ex.getMessage());

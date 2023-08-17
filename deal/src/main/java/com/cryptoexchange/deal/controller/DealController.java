@@ -25,7 +25,7 @@ public class DealController {
     private final DealService service;
 
     @PostMapping
-    public ResponseEntity<?> createCustomer(@Valid @RequestBody DealDTO dealDTO) {
+    public ResponseEntity<?> createNewDeal(@Valid @RequestBody DealDTO dealDTO) {
         ResponseWrapper<DealDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.createNewDeal(dealDTO), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }

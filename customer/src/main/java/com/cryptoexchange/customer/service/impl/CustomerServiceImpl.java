@@ -1,9 +1,9 @@
 package com.cryptoexchange.customer.service.impl;
 
 import com.cryptoexchange.common.dto.AccountDTO;
-import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.common.exception.types.AccountBadRequestException;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.customer.dto.CustomerDTO;
 import com.cryptoexchange.customer.model.Customer;
 import com.cryptoexchange.customer.repository.CustomerRepository;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
@@ -36,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO addAccountForCustomerById(Long id, Currency currency) {
+    public CustomerDTO addAccountForCustomerById(UUID id, Currency currency) {
         Customer customer = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Пользователь с ID " + id + " не найден"));
         if (customer.getCustomerAccounts().containsKey(currency))
             throw new AccountBadRequestException("Счет с типом валюты " + currency + " уже существует");
@@ -48,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional(readOnly = true)
-    public CustomerDTO findCustomerById(Long id) {
+    public CustomerDTO findCustomerById(UUID id) {
         Customer customer = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Пользователь с ID " + id + " не найден"));
         return INSTANCE.toDTO(customer);
     }
@@ -60,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO updateCustomerById(Long id, CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomerById(UUID id, CustomerDTO customerDTO) {
         Customer tmp = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Пользователь с ID " + id + " не найден"));
         tmp.setLogin(customerDTO.getLogin());
         tmp.setFullName(customerDTO.getFullName());
@@ -72,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
+    public void deleteCustomerById(UUID id) {
         Customer customer = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Пользователь с ID " + id + " не найден"));
         customer.setIsActive(false);
         repository.save(customer);

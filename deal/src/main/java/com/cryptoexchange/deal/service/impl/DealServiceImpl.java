@@ -65,7 +65,8 @@ public class DealServiceImpl implements DealService {
         CustomerDTO seller = customerClientService.findCustomerById(deal.getSellerId());
         validateCustomerAccount(seller, deal.getCurrency());
 
-        CustomerDTO guarantor = customerClientService.findCustomerById(deal.getGuarantorId());
+        //TODO:заглушка на гаранте, нужно будет релизовать поиск гарантов онлайн
+        CustomerDTO guarantor = customerClientService.findCustomerById(UUID.fromString("26e05254-7ec3-4889-a6ad-a484e7954efd"));
         validateCustomerRole(guarantor);
 
         repository.save(deal);

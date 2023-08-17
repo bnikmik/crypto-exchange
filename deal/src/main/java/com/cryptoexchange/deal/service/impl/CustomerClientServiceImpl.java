@@ -11,22 +11,20 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class CustomerClientServiceImpl implements CustomerClientService {
 
     private final KeycloakTokenService keycloakTokenService;
 
-    public CustomerDTO findCustomerById(Long id) {
+    public CustomerDTO findCustomerById(UUID id) {
 
         String otherMicroserviceUrl = "http://localhost:8081/customers/" + id;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        ParameterizedTypeReference<ResponseWrapper<CustomerDTO>> responseType =
-                new ParameterizedTypeReference<>() {
-                };
 
         HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
@@ -36,13 +34,12 @@ public class CustomerClientServiceImpl implements CustomerClientService {
                     otherMicroserviceUrl,
                     HttpMethod.GET,
                     requestEntity,
-                    responseType
+                    new ParameterizedTypeReference<>() {
+                    }
             );
         } catch (Exception ex) {
             throw new ClientResponseException(ex.getMessage());
         }
         return responseEntity.getBody().getData();
     }
-
-
 }

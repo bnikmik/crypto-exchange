@@ -17,9 +17,9 @@ import java.util.Objects;
 @Component
 public class KeycloakTokenService {
 
-    String KEYCLOAK_URL = "http://localhost:8080/auth/realms/crypto-exchange/protocol/openid-connect/token";
+    String KEYCLOAK_URL = "http://localhost:8080/realms/crypto-exchange/protocol/openid-connect/token";
     String CLIENT_ID = "crypto-exchange-client";
-    String CLIENT_SECRET = "Vjg6gw7GiD44UJPwskSKiXWG6UeyghGt";
+    String CLIENT_SECRET = "n96b2H84sWgdq2WyTFai6w0MQ4Ck7tW7";
 
     private String accessToken;
     private String refreshToken;
@@ -46,9 +46,9 @@ public class KeycloakTokenService {
             params.add("grant_type", "refresh_token");
             params.add("refresh_token", refreshToken);
         } else {
-            params.add("grant_type", "password");
-            params.add("username", "admin");
-            params.add("password", "1234");
+            params.add("grant_type", "client_credentials");
+//            params.add("username", "admin");
+//            params.add("password", "1234");
         }
 
         HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(params, headers);

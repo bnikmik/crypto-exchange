@@ -12,6 +12,7 @@ public interface CustomerMapper {
 
     @Mapping(target = "customerAccounts", source = "customerAccounts")
     CustomerDTO toDTO(Customer customer);
+
     @Mapping(target = "customerAccounts", source = "customerAccounts")
     Customer toEntity(CustomerDTO dto);
 }

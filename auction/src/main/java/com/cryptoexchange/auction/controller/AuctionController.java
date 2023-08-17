@@ -8,13 +8,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -31,4 +31,15 @@ public class AuctionController {
         return ResponseEntity.ok(wrapper);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> startDeal(@PathVariable UUID id, @RequestParam BigDecimal amount) {
+        ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.startDeal(id, amount), null);
+        return ResponseEntity.ok(wrapper);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> findAllAuctions() {
+        ResponseWrapper<List<AuctionDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAuctions(), null);
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+    }
 }

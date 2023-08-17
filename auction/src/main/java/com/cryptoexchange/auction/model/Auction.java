@@ -16,7 +16,7 @@ public class Auction {
     @Id
     @GeneratedValue
     private UUID id;
-    private Long sellerId;
+    private UUID sellerId;
     @Enumerated(EnumType.STRING)
     private Currency currency;
     private BigDecimal coinPrice;
