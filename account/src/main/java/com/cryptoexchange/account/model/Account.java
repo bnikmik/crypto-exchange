@@ -22,6 +22,7 @@ public class Account {
     private BigDecimal balance;
     private Instant lastTransactionDate = Instant.EPOCH;
     private Boolean isActive;
+    private UUID customerId;
     @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private List<AccountTransaction> transactionList;
 }

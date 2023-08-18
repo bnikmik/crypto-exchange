@@ -44,6 +44,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<AccountDTO> findAllAccountsByCustomerId(UUID customerId) {
+        List<AccountDTO> collect = repository.findAccountsByCustomerId(customerId).stream().map(INSTANCE::toDTO).collect(Collectors.toList());
+        System.out.println();
+        return collect;
+
+    }
+
+    @Override
     public void deleteAccountById(UUID id) {
         Account account = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + id + " не найден"));
         account.setIsActive(false);

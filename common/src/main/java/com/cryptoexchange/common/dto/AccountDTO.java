@@ -18,5 +18,6 @@ public class AccountDTO {
     private BigDecimal balance = new BigDecimal(0);
     private Instant lastTransactionDate = Instant.EPOCH;
     private Boolean isActive = true;
+    private UUID customerId;
     private List<AccountTransactionDTO> transactionList = Collections.emptyList();
 }

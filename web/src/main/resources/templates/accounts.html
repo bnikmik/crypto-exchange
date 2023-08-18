@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -31,12 +30,20 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            max-width: 400px;
+            max-width: 500px;
             margin: auto;
             padding: 33px;
             background-color: #f0f0f0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
+        }
+
+        .text {
+            font-size: 14px;
+            font-family: inherit;
+            color: black;
+            text-align: center; /* Добавлено для центрирования текста */
+            margin-bottom: 10px; /* Добавлено для пространства между элементами списка */
         }
 
         .header-line {
@@ -50,19 +57,28 @@
 
         .main-menu-label {
             font-size: 24px;
-            margin-bottom: 20px;
             font-weight: normal;
-
             font-family: inherit;
             line-height: 1.1;
             padding: 0;
         }
 
+        ul {
+            text-align: center; /* Добавлено для центрирования содержимого списка */
+            padding: 0; /* Убрано внутреннее отступление, чтобы избежать смещения */
+            margin: 20px;
+        }
+
+        .form-group {
+            font-size: 12px;
+        }
+
+
         button {
             padding: 0.5rem 0.5rem;
             width: 100%;
             display: block;
-            max-width: 420px;
+            max-width: 400px;
             max-height: 31px;
             font-size: 14px;
             font-family: inherit;
@@ -83,8 +99,30 @@
 <header>CRYPTO-EXCHANGE</header>
 <div class="button-container">
     <div class="header-line"></div>
-    <div class="main-menu-label">Добро пожаловать!!!</div>
-    <button onclick="window.location.href='http://localhost:8090/main-menu/'">Войти</button>
+    <div class="main-menu-label">Счета</div>
+    <input name="Authorization" th:value="${accessToken}" type="hidden"/>
+
+    <ul class="account-list" th:if="${not #lists.isEmpty(accountList)}">
+        <div class="text" th:each="account : ${accountList}" th:text="${account}"></div>
+    </ul>
+    <p th:unless="${not #lists.isEmpty(accountList)}">Нет доступных счетов</p>
+
+
+    <form action="/accounts/add-account" method="post">
+        <input name="Authorization" th:value="${accessToken}" type="hidden"/>
+        <div class="form-group">
+            <label for="accountType">Выберите тип счета:</label>
+            <select id="accountType" name="accountType" style="width: 280px">
+                <option th:each="type : ${T(com.cryptoexchange.common.model.Currency).values()}"
+                        th:text="${type.name}" th:value="${type}">
+                </option>
+            </select>
+        </div>
+        <button type="submit">Добавить счет</button>
+    </form>
+
+    <button onclick="window.location.href='http://localhost:8090/main-menu'">Назад</button>
 </div>
+
 </body>
 </html>

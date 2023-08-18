@@ -44,7 +44,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Получить счет по id")
+    @Operation(summary = "Получить счет по id счета")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = AccountDTO.class))}),
@@ -63,6 +63,19 @@ public class AccountController {
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content)})
     public ResponseEntity<?> findAllAccounts() {
         ResponseWrapper<List<AccountDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAccounts(), null);
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/customer/{customerId}")
+    @Operation(summary = "Получить все счета по ID пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = AccountDTO.class)))}),
+            @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден", content = @Content)})
+    public ResponseEntity<?> findAllAccountsByCustomerId(@PathVariable UUID customerId) {
+        ResponseWrapper<List<AccountDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAccountsByCustomerId(customerId), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 

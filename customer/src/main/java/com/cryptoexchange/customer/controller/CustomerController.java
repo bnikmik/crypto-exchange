@@ -43,7 +43,7 @@ public class CustomerController {
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/add-account")
+    @PostMapping("/{id}/add-account")
     @Operation(summary = "Добавить пользователю счет по id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
@@ -51,7 +51,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "400", description = "Введены неверные параметры.", content = @Content),
             @ApiResponse(responseCode = "401", description = "Не авторизован. Используйте обновленный bearer токен.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден.", content = @Content)})
-    public ResponseEntity<?> addAccountForCustomerById(@PathVariable UUID id, @RequestParam Currency currency) {
+    public ResponseEntity<?> addAccountForCustomerById(@PathVariable UUID id, @RequestBody Currency currency) {
         ResponseWrapper<CustomerDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.addAccountForCustomerById(id, currency), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }

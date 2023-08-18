@@ -4,6 +4,7 @@ import com.cryptoexchange.common.dto.CustomerDTO;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import com.cryptoexchange.common.keycloak.CustomClaimsService;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
+import com.cryptoexchange.common.model.Currency;
 import com.cryptoexchange.web.service.CustomerClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -64,6 +65,28 @@ public class CustomerClientServiceImpl implements CustomerClientService {
             );
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addAccount(Currency currency) {
+        String otherMicroserviceUrl = "http://localhost:8081/customers/" + claimsService.getLoggedUserId() + "/add-account";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Currency> requestEntity = new HttpEntity<>(currency, headers);
+
+        try {
+            restTemplate().exchange(
+                    otherMicroserviceUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    new ParameterizedTypeReference<ResponseWrapper<CustomerDTO>>() {
+                    }
+            );
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().is4xxClientError()) ex.printStackTrace();
         }
     }
 }

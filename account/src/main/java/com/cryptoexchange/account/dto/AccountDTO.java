@@ -25,6 +25,7 @@ public class AccountDTO {
     private Instant lastTransactionDate = Instant.EPOCH;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean isActive = true;
+    private UUID customerId;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<AccountTransactionDTO> transactionList = Collections.emptyList();
 }

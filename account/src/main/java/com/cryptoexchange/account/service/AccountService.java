@@ -14,6 +14,8 @@ public interface AccountService {
 
     List<AccountDTO> findAllAccounts();
 
+    List<AccountDTO> findAllAccountsByCustomerId(UUID customerId);
+
     void deleteAccountById(UUID id);
 
     BalanceDTO getBalance(UUID id);

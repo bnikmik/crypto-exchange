@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = INSTANCE.toEntity(customerDTO);
-        AccountDTO accountDTO = accountClientService.createAccount(Currency.BTC);
+        AccountDTO accountDTO = accountClientService.createAccount(Currency.BTC, customer.getId());
         customer.getCustomerAccounts().put(accountDTO.getCurrency(), accountDTO.getId());
         repository.save(customer);
         return INSTANCE.toDTO(customer);
@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Пользователь с ID " + id + " не найден"));
         if (customer.getCustomerAccounts().containsKey(currency))
             throw new AccountBadRequestException("Счет с типом валюты " + currency + " уже существует");
-        AccountDTO accountDTO = accountClientService.createAccount(currency);
+        AccountDTO accountDTO = accountClientService.createAccount(currency, id);
         customer.getCustomerAccounts().put(accountDTO.getCurrency(), accountDTO.getId());
         repository.save(customer);
         return INSTANCE.toDTO(customer);
