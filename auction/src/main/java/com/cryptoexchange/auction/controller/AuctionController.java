@@ -1,5 +1,6 @@
 package com.cryptoexchange.auction.controller;
 
+import com.cryptoexchange.auction.dto.AuctionAmountDTO;
 import com.cryptoexchange.auction.dto.AuctionDTO;
 import com.cryptoexchange.auction.service.AuctionService;
 import com.cryptoexchange.common.exception.ResponseWrapper;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -32,8 +32,14 @@ public class AuctionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> startDeal(@PathVariable UUID id, @RequestParam BigDecimal amount) {
-        ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.startDeal(id, amount), null);
+    public ResponseEntity<?> startAuctionDeal(@PathVariable UUID id, @RequestBody AuctionAmountDTO amountDTO) {
+        ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.startAuctionDeal(id, amountDTO), null);
+        return ResponseEntity.ok(wrapper);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> cancelAuctionDeal(@PathVariable UUID id, @RequestBody AuctionAmountDTO amountDTO) {
+        ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.cancelAuctionDeal(id, amountDTO), null);
         return ResponseEntity.ok(wrapper);
     }
 
@@ -42,4 +48,5 @@ public class AuctionController {
         ResponseWrapper<List<AuctionDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAuctions(), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
+
 }

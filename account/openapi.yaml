@@ -13,6 +13,8 @@ paths:
       summary: Получить все счета
       operationId: findAllAccounts
       responses:
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
@@ -21,8 +23,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AccountDTO'
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
       security:
         - Bearer Authentication: [ ]
     post:
@@ -37,16 +37,16 @@ paths:
               $ref: '#/components/schemas/AccountDTO'
         required: true
       responses:
-        "400":
-          description: Введены неверные параметры.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
+        "400":
+          description: Введены неверные параметры.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
       security:
         - Bearer Authentication: [ ]
   /accounts/transactions/{accountId}:
@@ -69,26 +69,26 @@ paths:
               $ref: '#/components/schemas/AccountTransactionDTO'
         required: true
       responses:
-        "400":
-          description: Введены неверные параметры.
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
+        "400":
+          description: Введены неверные параметры.
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Счет не найден.
       security:
         - Bearer Authentication: [ ]
   /accounts/{id}:
     get:
       tags:
         - Счета
-      summary: Получить счет по id
-      operationId: findAccount
+      summary: Получить счет по id счета
+      operationId: findAccountById
       parameters:
         - name: id
           in: path
@@ -97,16 +97,16 @@ paths:
             type: string
             format: uuid
       responses:
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Счет не найден.
       security:
         - Bearer Authentication: [ ]
     delete:
@@ -122,12 +122,12 @@ paths:
             type: string
             format: uuid
       responses:
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Счет не найден.
       security:
         - Bearer Authentication: [ ]
   /accounts/transactions:
@@ -137,6 +137,8 @@ paths:
       summary: Получить все транзакции
       operationId: findAllAccountTransactions
       responses:
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
@@ -145,8 +147,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AccountDTO'
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
       security:
         - Bearer Authentication: [ ]
   /accounts/transactions/{id}:
@@ -163,8 +163,34 @@ paths:
             type: string
             format: uuid
       responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
         "404":
           description: Транзакция не найдена.
+      security:
+        - Bearer Authentication: [ ]
+  /accounts/customer/{customerId}:
+    get:
+      tags:
+        - Счета
+      summary: Получить все счета по ID пользователя
+      operationId: findAllAccountsByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "404":
+          description: Пользователь не найден
         "401":
           description: Не авторизован. Используйте обновленный bearer токен.
         "200":
@@ -172,7 +198,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDTO'
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDTO'
       security:
         - Bearer Authentication: [ ]
   /accounts/balance/{accountId}:
@@ -189,16 +217,16 @@ paths:
             type: string
             format: uuid
       responses:
-        "404":
-          description: Счет не найден.
-        "401":
-          description: Не авторизован. Используйте обновленный bearer токен.
         "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDTO'
+        "401":
+          description: Не авторизован. Используйте обновленный bearer токен.
+        "404":
+          description: Счет не найден.
       security:
         - Bearer Authentication: [ ]
 components:
@@ -235,6 +263,9 @@ components:
         isActive:
           type: boolean
           readOnly: true
+        customerId:
+          type: string
+          format: uuid
         transactionList:
           type: array
           readOnly: true

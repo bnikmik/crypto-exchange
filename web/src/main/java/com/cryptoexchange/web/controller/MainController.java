@@ -20,7 +20,6 @@ public class MainController {
                 (claimsService.getLoggedUserId())) {
             clientService.createCustomer();
         }
-//        model.addAttribute("username", claimsService.getLoggedUserId());
         return "main-menu";
     }
 

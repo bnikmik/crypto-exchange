@@ -101,7 +101,6 @@
     <div class="header-line"></div>
     <div class="main-menu-label">Счета</div>
     <input name="Authorization" th:value="${accessToken}" type="hidden"/>
-
     <ul class="account-list" th:if="${not #lists.isEmpty(accountList)}">
         <div class="text" th:each="account : ${accountList}" th:text="${account}"></div>
     </ul>
@@ -110,6 +109,7 @@
 
     <form action="/accounts/add-account" method="post">
         <input name="Authorization" th:value="${accessToken}" type="hidden"/>
+        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/> <!-- CSRF-токен -->
         <div class="form-group">
             <label for="accountType">Выберите тип счета:</label>
             <select id="accountType" name="accountType" style="width: 280px">
@@ -121,7 +121,7 @@
         <button type="submit">Добавить счет</button>
     </form>
 
-    <button onclick="window.location.href='http://localhost:8090/main-menu'">Назад</button>
+    <button onclick="window.location.href='http://localhost:9000/main-menu'">Назад</button>
 </div>
 
 </body>

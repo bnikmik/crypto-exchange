@@ -10,6 +10,7 @@ create table deal_schema.deal
     balance      numeric,
     buyer_id     uuid,
     seller_id    uuid,
-    guarantor_id uuid
+    guarantor_id uuid,
+    auction_id   uuid
 );
 

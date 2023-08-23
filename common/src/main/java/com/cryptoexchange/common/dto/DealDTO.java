@@ -23,5 +23,6 @@ public class DealDTO {
     private UUID sellerId;
     private UUID buyerId;
     private UUID guarantorId;
+    private UUID auctionId;
     private Map<DealStatus, Instant> dealStatusTime;
 }

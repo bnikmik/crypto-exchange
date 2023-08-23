@@ -7,4 +7,5 @@ public interface DealClientService {
 
     DealDTO startDeal(AuctionDTO auctionDTO);
 
+
 }

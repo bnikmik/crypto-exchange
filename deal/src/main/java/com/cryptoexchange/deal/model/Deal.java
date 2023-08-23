@@ -29,6 +29,7 @@ public class Deal {
     private UUID sellerId;
     private UUID buyerId;
     private UUID guarantorId;
+    private UUID auctionId;
     @ElementCollection
     @CollectionTable(name = "deal_status_time", joinColumns = @JoinColumn(name = "deal_id"))
     @MapKeyEnumerated(EnumType.STRING)

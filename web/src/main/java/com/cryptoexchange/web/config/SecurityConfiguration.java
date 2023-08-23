@@ -12,7 +12,8 @@ public class SecurityConfiguration {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.oauth2Login(Customizer.withDefaults());
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs.yaml", "/", "/accounts/add-account/").permitAll()
                 .anyRequest().authenticated()

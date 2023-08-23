@@ -14,6 +14,7 @@ import com.cryptoexchange.deal.dto.DealDTO;
 import com.cryptoexchange.deal.model.Deal;
 import com.cryptoexchange.deal.repository.DealRepository;
 import com.cryptoexchange.deal.service.AccountClientService;
+import com.cryptoexchange.deal.service.AuctionClientService;
 import com.cryptoexchange.deal.service.CustomerClientService;
 import com.cryptoexchange.deal.service.DealService;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class DealServiceImpl implements DealService {
     private final DealRepository repository;
     private final CustomerClientService customerClientService;
     private final AccountClientService accountClientService;
+    private final AuctionClientService auctionClientService;
 
     private void validateCustomerAccount(CustomerDTO customerDTO, Currency currency) {
         if (!customerDTO.getCustomerAccounts().containsKey(currency))
@@ -123,6 +125,7 @@ public class DealServiceImpl implements DealService {
                         TransactionType.DEPOSIT,
                         deal.getBalance()
                 );
+                auctionClientService.cancelAuctionDeal(deal.getAuctionId(), deal.getBalance());
             }
         }
 

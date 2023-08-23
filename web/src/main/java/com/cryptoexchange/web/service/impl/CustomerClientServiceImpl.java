@@ -23,8 +23,9 @@ public class CustomerClientServiceImpl implements CustomerClientService {
 
     @Override
     public boolean checkCustomerRegistration(String id) {
-        String otherMicroserviceUrl = "http://localhost:8081/customers/" + id;
+        String otherMicroserviceUrl = "http://localhost:8090/customers/" + id;
         HttpHeaders headers = new HttpHeaders();
+
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -46,10 +47,13 @@ public class CustomerClientServiceImpl implements CustomerClientService {
     @Override
     public void createCustomer() {
 
-        String otherMicroserviceUrl = "http://localhost:8081/customers";
+        String otherMicroserviceUrl = "http://localhost:8090/customers";
         HttpHeaders headers = new HttpHeaders();
+
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
+
         headers.setContentType(MediaType.APPLICATION_JSON);
+
 
         CustomerDTO customerDTO = claimsService.createCustomer();
 
@@ -70,7 +74,7 @@ public class CustomerClientServiceImpl implements CustomerClientService {
 
     @Override
     public void addAccount(Currency currency) {
-        String otherMicroserviceUrl = "http://localhost:8081/customers/" + claimsService.getLoggedUserId() + "/add-account";
+        String otherMicroserviceUrl = "http://localhost:8090/customers/" + claimsService.getLoggedUserId() + "/add-account";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);

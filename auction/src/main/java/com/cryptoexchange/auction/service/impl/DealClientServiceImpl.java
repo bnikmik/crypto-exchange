@@ -36,6 +36,7 @@ public class DealClientServiceImpl implements DealClientService {
         dealDTO.setCurrency(auctionDTO.getCurrency());
         dealDTO.setDealType(DealType.P2P);
         dealDTO.setBuyerId(UUID.fromString(claimsService.getLoggedUserId()));
+        dealDTO.setAuctionId(auctionDTO.getId());
 //        dealDTO.setGuarantorId()
 
         HttpEntity<DealDTO> requestEntity = new HttpEntity<>(dealDTO, headers);

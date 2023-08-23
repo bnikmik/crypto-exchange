@@ -19,9 +19,10 @@ public class AccountClientServiceImpl implements AccountClientService {
 
     private final KeycloakTokenService keycloakTokenService;
 
+
     public List<AccountDTO> findAllAccountsByCustomerId(String id) {
 
-        String otherMicroserviceUrl = "http://localhost:8082/accounts/customer/" + id;
+        String otherMicroserviceUrl = "http://localhost:8090/accounts/customer/" + id;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);

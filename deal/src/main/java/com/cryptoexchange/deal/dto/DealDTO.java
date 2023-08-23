@@ -32,6 +32,7 @@ public class DealDTO {
     private UUID sellerId;
     private UUID buyerId;
     private UUID guarantorId;
+    private UUID auctionId;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Map<DealStatus, Instant> dealStatusTime = new HashMap<>() {{
         put(dealStatus, Instant.now());
