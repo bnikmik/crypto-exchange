@@ -8,4 +8,8 @@ public class AccountBadRequestException extends RuntimeException {
     public AccountBadRequestException(String message) {
         super(message);
     }
+
+    public AccountBadRequestException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

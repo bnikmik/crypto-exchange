@@ -30,7 +30,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            max-width: 400px;
+            max-width: 700px;
             margin: auto;
             padding: 33px;
             background-color: #f0f0f0;
@@ -51,17 +51,42 @@
             font-size: 24px;
             margin-bottom: 20px;
             font-weight: normal;
-
             font-family: inherit;
             line-height: 1.1;
             padding: 0;
         }
 
+        .form-group {
+            font-size: 12px;
+        }
+
+        .label-input {
+            background-color: transparent;
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.66666667;
+        }
+
+        .text {
+            font-size: 14px;
+            font-family: inherit;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .input-container {
+            width: 100%;
+            max-width: 380px;
+            padding: 0.5rem;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 0.5rem;
+        }
+
         button {
             padding: 0.5rem 0.5rem;
             width: 100%;
-            display: block;
-            max-width: 420px;
+            max-width: 400px;
             max-height: 31px;
             font-size: 14px;
             font-family: inherit;
@@ -82,9 +107,22 @@
 <header>CRYPTO-EXCHANGE</header>
 <div class="button-container">
     <div class="header-line"></div>
-    <div class="main-menu-label">Главное меню</div>
-    <button onclick="window.location.href='http://localhost:9000/accounts/'">Мои счета</button>
-    <button onclick="window.location.href='http://localhost:9000/auctions/'">Аукцион</button>
+
+    <div class="main-menu-label"><p th:text="'Аукцион ID: ' + ${auctionId}"></p></div>
+
+
+    <div class="text"
+         th:text="'Тип: ' + ${currency} + ' Всего монет: ' + ${amount} +' Цена за монету: ' + ${pricePerUnit}"></div>
+
+    <form action="/auctions/start" class="form-group" method="post">
+        <input name="auctionId" th:value="${auctionId}" type="hidden"/>
+        <label class="label-input">Количество монет:</label>
+        <input class="input-container" min="0" name="amountCoins" step="any" th:max="${amount}" type="number">
+
+        <button type="submit">Купить</button>
+        <button onclick="window.location.href='http://localhost:9000/auctions/'" type="button">Назад</button>
+    </form>
+
 </div>
 </body>
 </html>

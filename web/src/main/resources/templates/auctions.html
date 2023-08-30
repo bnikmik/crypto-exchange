@@ -30,7 +30,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            max-width: 400px;
+            max-width: 800px;
             margin: auto;
             padding: 33px;
             background-color: #f0f0f0;
@@ -49,12 +49,18 @@
 
         .main-menu-label {
             font-size: 24px;
-            margin-bottom: 20px;
             font-weight: normal;
-
             font-family: inherit;
             line-height: 1.1;
             padding: 0;
+        }
+
+        .list {
+            list-style: none; /* Убираем маркеры списка */
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Элементы выровнены влево */
         }
 
         button {
@@ -82,9 +88,22 @@
 <header>CRYPTO-EXCHANGE</header>
 <div class="button-container">
     <div class="header-line"></div>
-    <div class="main-menu-label">Главное меню</div>
-    <button onclick="window.location.href='http://localhost:9000/accounts/'">Мои счета</button>
-    <button onclick="window.location.href='http://localhost:9000/auctions/'">Аукцион</button>
+    <div class="main-menu-label">Аукцион</div>
+
+    <ul class="list" th:if="${not #lists.isEmpty(auctionList)}">
+        <div class="text" th:each="auction : ${auctionList}">
+
+            <a class="button-link" th:block
+               th:href="'http://localhost:9000/auctions/'+${partOfText}" th:with="partOfText=${#strings.substring(auction, 6, 42)}">
+                <div class="text" th:text="${auction}"></div>
+
+            </a>
+        </div>
+    </ul>
+    <p th:unless="${not #lists.isEmpty(auctionList)}">Нет доступных аукционов</p>
+
+    <button onclick="window.location.href='http://localhost:9000/auctions/create/'">Создать аукцион</button>
+    <button onclick="window.location.href='http://localhost:9000/main-menu'">Назад</button>
 </div>
 </body>
 </html>

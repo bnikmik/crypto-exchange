@@ -1,6 +1,7 @@
 package com.cryptoexchange.deal.service.impl;
 
-import com.cryptoexchange.common.dto.AuctionAmountDTO;
+import com.cryptoexchange.common.dto.AuctionStartDTO;
+import com.cryptoexchange.common.exception.types.ClientResponseException;
 import com.cryptoexchange.common.keycloak.KeycloakTokenService;
 import com.cryptoexchange.deal.service.AuctionClientService;
 import lombok.AllArgsConstructor;
@@ -30,10 +31,10 @@ public class AuctionClientServiceImpl implements AuctionClientService {
         headers.set("Authorization", "Bearer " + keycloakTokenService.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        AuctionAmountDTO amountDTO = new AuctionAmountDTO();
+        AuctionStartDTO amountDTO = new AuctionStartDTO();
         amountDTO.setAmountCoins(amount);
 
-        HttpEntity<AuctionAmountDTO> requestEntity = new HttpEntity<>(amountDTO, headers);
+        HttpEntity<AuctionStartDTO> requestEntity = new HttpEntity<>(amountDTO, headers);
 
         try {
             new RestTemplate().exchange(
@@ -44,7 +45,7 @@ public class AuctionClientServiceImpl implements AuctionClientService {
                     }
             );
         } catch (HttpClientErrorException ex) {
-            ex.printStackTrace();
+            throw new ClientResponseException(ex.getMessage(), ex);
         }
     }
 }

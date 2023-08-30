@@ -25,6 +25,14 @@
             padding: 62px 10px 20px;
         }
 
+        .list {
+            list-style: none; /* Убираем маркеры списка */
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Элементы выровнены влево */
+        }
+
         .button-container {
             display: flex;
             flex-direction: column;
@@ -42,8 +50,8 @@
             font-size: 14px;
             font-family: inherit;
             color: black;
-            text-align: center; /* Добавлено для центрирования текста */
-            margin-bottom: 10px; /* Добавлено для пространства между элементами списка */
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         .header-line {
@@ -64,30 +72,50 @@
         }
 
         ul {
-            text-align: center; /* Добавлено для центрирования содержимого списка */
-            padding: 0; /* Убрано внутреннее отступление, чтобы избежать смещения */
+            text-align: center;
+            padding: 0;
             margin: 20px;
         }
 
         .form-group {
             font-size: 12px;
+            width: 100%;
+            text-align: center; /* Выравнивание текста по центру */
+            display: flex; /* Используем flexbox для центрирования элементов */
+            flex-direction: column; /* Элементы внутри .form-group располагаются вертикально */
+            align-items: center; /* Выравнивание элементов по центру по горизонтали */
         }
 
-
         button {
-            padding: 0.5rem 0.5rem;
             width: 100%;
-            display: block;
             max-width: 400px;
-            max-height: 31px;
+            padding: 0.5rem;
             font-size: 14px;
             font-family: inherit;
-            background-color: royalblue;
-            color: #fff;
             border: none;
-            cursor: pointer;
+            border-radius: 3px;
+            background-color: #fff;
             margin-bottom: 0.5rem;
+        }
+
+        .select-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.5rem;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 0.5rem;
+            border: none;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+
+        button {
+            cursor: pointer;
             transition: background-color 0.3s ease;
+            color: #fff;
+            background-color: royalblue;
+            border-radius: 0;
         }
 
         button:hover {
@@ -99,20 +127,18 @@
 <header>CRYPTO-EXCHANGE</header>
 <div class="button-container">
     <div class="header-line"></div>
-    <div class="main-menu-label">Счета</div>
-    <input name="Authorization" th:value="${accessToken}" type="hidden"/>
-    <ul class="account-list" th:if="${not #lists.isEmpty(accountList)}">
+    <div class="main-menu-label">Мои счета</div>
+    <ul class="list" th:if="${not #lists.isEmpty(accountList)}">
         <div class="text" th:each="account : ${accountList}" th:text="${account}"></div>
     </ul>
     <p th:unless="${not #lists.isEmpty(accountList)}">Нет доступных счетов</p>
 
-
-    <form action="/accounts/add-account" method="post">
-        <input name="Authorization" th:value="${accessToken}" type="hidden"/>
-        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/> <!-- CSRF-токен -->
+    <form action="/accounts/add-account" class="form-group" method="post">
+        <!--        <input name="Authorization" th:value="${accessToken}" type="hidden"/>-->
+        <!--        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/> -->
         <div class="form-group">
-            <label for="accountType">Выберите тип счета:</label>
-            <select id="accountType" name="accountType" style="width: 280px">
+            <label for="accountType" style="text-align: left;width: 80%">Выберите тип счета:</label>
+            <select class="select-container" id="accountType" name="accountType">
                 <option th:each="type : ${T(com.cryptoexchange.common.model.Currency).values()}"
                         th:text="${type.name}" th:value="${type}">
                 </option>

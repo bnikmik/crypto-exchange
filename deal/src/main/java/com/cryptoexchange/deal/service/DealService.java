@@ -10,4 +10,6 @@ public interface DealService {
     DealDTO createNewDeal(DealDTO dealDTO);
 
     DealDTO updateDealStatusById(UUID dealId, DealStatus dealStatus);
+
+    DealDTO findDealById(UUID dealId);
 }

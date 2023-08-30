@@ -1,7 +1,7 @@
 package com.cryptoexchange.auction.controller;
 
-import com.cryptoexchange.auction.dto.AuctionAmountDTO;
 import com.cryptoexchange.auction.dto.AuctionDTO;
+import com.cryptoexchange.auction.dto.AuctionStartDTO;
 import com.cryptoexchange.auction.service.AuctionService;
 import com.cryptoexchange.common.exception.ResponseWrapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,14 +32,20 @@ public class AuctionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> startAuctionDeal(@PathVariable UUID id, @RequestBody AuctionAmountDTO amountDTO) {
+    public ResponseEntity<?> startAuctionDeal(@PathVariable UUID id, @RequestBody AuctionStartDTO amountDTO) {
         ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.startAuctionDeal(id, amountDTO), null);
         return ResponseEntity.ok(wrapper);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> cancelAuctionDeal(@PathVariable UUID id, @RequestBody AuctionAmountDTO amountDTO) {
+    public ResponseEntity<?> cancelAuctionDeal(@PathVariable UUID id, @RequestBody AuctionStartDTO amountDTO) {
         ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.cancelAuctionDeal(id, amountDTO), null);
+        return ResponseEntity.ok(wrapper);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findAuctionById(@PathVariable UUID id) {
+        ResponseWrapper<AuctionDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAuctionById(id), null);
         return ResponseEntity.ok(wrapper);
     }
 

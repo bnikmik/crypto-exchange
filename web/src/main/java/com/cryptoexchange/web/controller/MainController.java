@@ -15,9 +15,8 @@ public class MainController {
     private final CustomerClientService clientService;
 
     @GetMapping("/main-menu")
-    public String login() {
-        if (!clientService.checkCustomerRegistration
-                (claimsService.getLoggedUserId())) {
+    public String getMainMenu() {
+        if (!clientService.checkCustomerRegistration(claimsService.getLoggedUserId())) {
             clientService.createCustomer();
         }
         return "main-menu";

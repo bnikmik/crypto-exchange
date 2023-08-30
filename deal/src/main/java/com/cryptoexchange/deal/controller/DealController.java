@@ -30,8 +30,14 @@ public class DealController {
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
+    @GetMapping("/{dealId}")
+    public ResponseEntity<?> findDealById(@PathVariable UUID dealId) {
+        ResponseWrapper<DealDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findDealById(dealId), null);
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+    }
+
     @PutMapping("/{dealId}")
-    public ResponseEntity<?> updateCustomerById(@PathVariable UUID dealId, @Valid @RequestParam DealStatus dealStatus) {
+    public ResponseEntity<?> updateDealById(@PathVariable UUID dealId, @Valid @RequestBody DealStatus dealStatus) {
         ResponseWrapper<DealDTO> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.updateDealStatusById(dealId, dealStatus), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }

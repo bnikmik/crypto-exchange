@@ -17,7 +17,7 @@ import java.util.UUID;
 public class DealDTO {
     private UUID id;
     private DealType dealType;
-    private DealStatus dealStatus = DealStatus.STARTED;
+    private DealStatus dealStatus;
     private Currency currency;
     private BigDecimal balance;
     private UUID sellerId;

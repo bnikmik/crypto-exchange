@@ -71,6 +71,14 @@ public class DealServiceImpl implements DealService {
         CustomerDTO guarantor = customerClientService.findCustomerById(UUID.fromString("26e05254-7ec3-4889-a6ad-a484e7954efd"));
         validateCustomerRole(guarantor);
 
+        validateAccountBalance(seller, deal.getCurrency(), deal.getBalance());
+
+        accountClientService.makeTransaction(
+                seller.getCustomerAccounts().get(deal.getCurrency()),
+                TransactionType.WITHDRAWAL,
+                deal.getBalance()
+        );
+
         repository.save(deal);
         return INSTANCE.toDTO(deal);
     }
@@ -81,12 +89,8 @@ public class DealServiceImpl implements DealService {
 
     private void validateDealStatus(DealStatus dealStatus, DealStatus previous) {
         switch (dealStatus) {
-            case FUNDS_ON_HOLD, DONE, CANCELED -> {
+            case STARTED, BUYER_CONFIRMED, DONE, CANCELED -> {
                 if (!dealStatus.equals(previous))
-                    throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
-            }
-            case STARTED -> {
-                if (previous.equals(DealStatus.STARTED))
                     throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
             }
         }
@@ -94,24 +98,20 @@ public class DealServiceImpl implements DealService {
 
     @Override
     public DealDTO updateDealStatusById(UUID dealId, DealStatus dealStatus) {
-        validateDealStatus(dealStatus, DealStatus.STARTED);
+        if (dealStatus.equals(DealStatus.STARTED))
+            throw new DealBadStatusException("Выберите верный статус для следующего этапа сделки!");
         Deal deal = repository.findById(dealId).orElseThrow(() -> new RecordNotFoundException("Сделка с ID " + dealId + " не найдена"));
 
         CustomerDTO buyer = customerClientService.findCustomerById(deal.getBuyerId());
         CustomerDTO seller = customerClientService.findCustomerById(deal.getSellerId());
 
         switch (dealStatus) {
-            case FUNDS_ON_HOLD -> {
+            case BUYER_CONFIRMED -> {
                 validateDealStatus(deal.getDealStatus(), DealStatus.STARTED);
-                validateAccountBalance(seller, deal.getCurrency(), deal.getBalance());
-                accountClientService.makeTransaction(
-                        seller.getCustomerAccounts().get(deal.getCurrency()),
-                        TransactionType.WITHDRAWAL,
-                        deal.getBalance()
-                );
             }
+            //TODO:НУЖЕН ПРОМЕЖУТОЧНЫЙ СТАТУС ЕСЛИ ДЕНЬГИ НЕ ПОЛУЧИЛ ИЛИ НЕ БЫЛИ ОТПРАВЛЕНЫ, ЧТОБЫ ВЫЗЫВАТЬ МОДЕРАТОРА
             case DONE -> {
-                validateDealStatus(deal.getDealStatus(), DealStatus.FUNDS_ON_HOLD);
+                validateDealStatus(deal.getDealStatus(), DealStatus.BUYER_CONFIRMED);
                 accountClientService.makeTransaction(
                         buyer.getCustomerAccounts().get(deal.getCurrency()),
                         TransactionType.DEPOSIT,
@@ -119,7 +119,7 @@ public class DealServiceImpl implements DealService {
                 );
             }
             case CANCELED -> {
-                validateDealStatus(deal.getDealStatus(), DealStatus.FUNDS_ON_HOLD);
+                validateDealStatus(deal.getDealStatus(), DealStatus.BUYER_CONFIRMED);
                 accountClientService.makeTransaction(
                         seller.getCustomerAccounts().get(deal.getCurrency()),
                         TransactionType.DEPOSIT,
@@ -135,5 +135,10 @@ public class DealServiceImpl implements DealService {
         deal.setDealStatusTime(dealStatusTime);
         repository.save(deal);
         return INSTANCE.toDTO(deal);
+    }
+
+    @Override
+    public DealDTO findDealById(UUID dealId) {
+        return INSTANCE.toDTO(repository.findById(dealId).orElseThrow(() -> new RecordNotFoundException("Сделка с ID " + dealId + " не найдена")));
     }
 }

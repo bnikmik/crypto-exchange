@@ -26,16 +26,17 @@
         }
 
         .button-container {
-            display: flex;
+            display: -o-flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            max-width: 400px;
+            max-width: 600px;
             margin: auto;
             padding: 33px;
             background-color: #f0f0f0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
+            text-align: center;
         }
 
         .header-line {
@@ -57,10 +58,16 @@
             padding: 0;
         }
 
+        .text {
+            font-size: 14px;
+            font-family: inherit;
+            color: black;
+            margin-bottom: 10px;
+        }
+
         button {
             padding: 0.5rem 0.5rem;
             width: 100%;
-            display: block;
             max-width: 420px;
             max-height: 31px;
             font-size: 14px;
@@ -71,6 +78,7 @@
             cursor: pointer;
             margin-bottom: 0.5rem;
             transition: background-color 0.3s ease;
+            text-align: center;
         }
 
         button:hover {
@@ -82,9 +90,29 @@
 <header>CRYPTO-EXCHANGE</header>
 <div class="button-container">
     <div class="header-line"></div>
-    <div class="main-menu-label">Главное меню</div>
-    <button onclick="window.location.href='http://localhost:9000/accounts/'">Мои счета</button>
-    <button onclick="window.location.href='http://localhost:9000/auctions/'">Аукцион</button>
+    <div class="main-menu-label"><p th:text="'Сделка ID: ' + ${dealId}"></p></div>
+    <div th:if="${userId} == ${buyerId}">
+        <div class="text"
+             th:text="'Переведите деньги пользователю ID ' + ${sellerId} +', затем нажмите кнопку'">
+        </div>
+        <form class="form-group" method="post" th:action="@{'/deals/' + ${dealId}}">
+            <input name="dealStatus" type="hidden" value="BUYER_CONFIRMED"/>
+            <button type="submit">Отправил деньги</button>
+        </form>
+    </div>
+    <div th:if="${userId} == ${sellerId}">
+        <div class="text"
+             th:text="'Проверьте ваш счет, покупатель ID ' + ${buyerId} +', должен отправить вам деньги'">
+        </div>
+        <form class="form-group" method="post" th:action="@{'/deals/' + ${dealId}}">
+            <input name="dealStatus" type="hidden" value="DONE"/>
+            <button type="submit">Получил деньги</button>
+        </form>
+        <form class="form-group" method="post" th:action="@{'/deals/' + ${dealId}}">
+            <input name="dealStatus" type="hidden" value="SELLER_NOT_CONFIRMED"/>
+            <button type="submit">Не получил деньги</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

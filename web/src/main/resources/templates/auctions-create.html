@@ -51,17 +51,47 @@
             font-size: 24px;
             margin-bottom: 20px;
             font-weight: normal;
-
             font-family: inherit;
             line-height: 1.1;
             padding: 0;
         }
 
+        .form-group {
+            font-size: 12px;
+        }
+
+        .label-input {
+            background-color: transparent;
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.66666667;
+        }
+
+        .input-container {
+            width: 100%;
+            max-width: 380px;
+            padding: 0.5rem;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 0.5rem;
+        }
+
+        .select-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.5rem;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 0.5rem;
+            border: none;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+
         button {
             padding: 0.5rem 0.5rem;
             width: 100%;
-            display: block;
-            max-width: 420px;
+            max-width: 400px;
             max-height: 31px;
             font-size: 14px;
             font-family: inherit;
@@ -82,9 +112,25 @@
 <header>CRYPTO-EXCHANGE</header>
 <div class="button-container">
     <div class="header-line"></div>
-    <div class="main-menu-label">Главное меню</div>
-    <button onclick="window.location.href='http://localhost:9000/accounts/'">Мои счета</button>
-    <button onclick="window.location.href='http://localhost:9000/auctions/'">Аукцион</button>
+    <div class="main-menu-label">Создать аукцион</div>
+
+    <form action="/auctions/create" class="form-group" method="POST">
+        <input name="Authorization" th:value="${accessToken}" type="hidden"/>
+        <label>Выберите тип счета:</label>
+        <select class="select-container" id="accountType" name="accountType">
+            <option th:each="type : ${T(com.cryptoexchange.common.model.Currency).values()}"
+                    th:text="${type.name}" th:value="${type}">
+            </option>
+        </select>
+        <label class="label-input">Количество монет:</label>
+        <input class="input-container" name="amount" step="any" type="number">
+        <label class="label-input">Стоимость за единицу:</label>
+        <input class="input-container" name="pricePerUnit" step="any" type="number">
+
+        <button type="submit">Создать</button>
+    </form>
+    <button onclick="window.location.href='http://localhost:9000/auctions/'">Назад</button>
+
 </div>
 </body>
 </html>

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
@@ -42,8 +43,8 @@ public class AccountClientServiceImpl implements AccountClientService {
                     new ParameterizedTypeReference<>() {
                     }
             );
-        } catch (Exception ex) {
-            throw new ClientResponseException(ex.getMessage());
+        } catch (HttpClientErrorException ex) {
+            throw new ClientResponseException(ex.getMessage(), ex);
         }
 
         return responseEntity.getBody().getData();

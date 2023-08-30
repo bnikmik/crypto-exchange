@@ -4,14 +4,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: customer
+        - id: customers
           uri: http://localhost:8081/
           predicates:
             - Path=/customers/**
-        - id: customer
+        - id: accounts
           uri: http://localhost:8082/
           predicates:
             - Path=/accounts/**
+        - id: deals
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/deals/**
+        - id: auctions
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/auctions/**
       globalcors:
         cors-configurations:
           '[/**]':
