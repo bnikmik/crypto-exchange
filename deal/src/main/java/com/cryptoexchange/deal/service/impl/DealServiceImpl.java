@@ -17,7 +17,9 @@ import com.cryptoexchange.deal.service.AccountClientService;
 import com.cryptoexchange.deal.service.AuctionClientService;
 import com.cryptoexchange.deal.service.CustomerClientService;
 import com.cryptoexchange.deal.service.DealService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,13 +30,20 @@ import java.util.UUID;
 import static com.cryptoexchange.deal.mapping.DealMapping.INSTANCE;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DealServiceImpl implements DealService {
 
     private final DealRepository repository;
     private final CustomerClientService customerClientService;
     private final AccountClientService accountClientService;
     private final AuctionClientService auctionClientService;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    @Value("${crypto-exchange.kafka.request-topic}")
+    private String requestTopic;
+
+    private void sendRequest(String message) {
+        kafkaTemplate.send(requestTopic, message);
+    }
 
     private void validateCustomerAccount(CustomerDTO customerDTO, Currency currency) {
         if (!customerDTO.getCustomerAccounts().containsKey(currency))
@@ -108,6 +117,7 @@ public class DealServiceImpl implements DealService {
         switch (dealStatus) {
             case BUYER_CONFIRMED -> {
                 validateDealStatus(deal.getDealStatus(), DealStatus.STARTED);
+                sendRequest(seller.getEmail() + ";" + deal.getId());
             }
             //TODO:НУЖЕН ПРОМЕЖУТОЧНЫЙ СТАТУС ЕСЛИ ДЕНЬГИ НЕ ПОЛУЧИЛ ИЛИ НЕ БЫЛИ ОТПРАВЛЕНЫ, ЧТОБЫ ВЫЗЫВАТЬ МОДЕРАТОРА
             case DONE -> {

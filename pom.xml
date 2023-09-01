@@ -22,6 +22,7 @@
         <module>web</module>
         <module>auction</module>
         <module>gateway</module>
+        <module>notification</module>
     </modules>
 
     <properties>
@@ -156,6 +157,19 @@
                 <version>2.2.220</version>
                 <scope>runtime</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-kafka.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

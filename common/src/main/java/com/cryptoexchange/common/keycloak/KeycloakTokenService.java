@@ -46,9 +46,9 @@ public class KeycloakTokenService {
             params.add("grant_type", "refresh_token");
             params.add("refresh_token", refreshToken);
         } else {
-            params.add("grant_type", "client_credentials");
-//            params.add("username", "admin");
-//            params.add("password", "1234");
+            params.add("grant_type", "password");
+            params.add("username", "admin");
+            params.add("password", "1234");
         }
 
         HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(params, headers);

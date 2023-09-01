@@ -1,4 +1,9 @@
+crypto-exchange:
+  kafka:
+    request-topic: notification-topic
 spring:
+  kafka:
+    bootstrap-servers: kafka:29092
   liquibase:
     enabled: true
     change-log: classpath:deal/liquibase/changelog.xml

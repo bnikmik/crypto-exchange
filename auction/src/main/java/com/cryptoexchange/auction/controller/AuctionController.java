@@ -54,5 +54,4 @@ public class AuctionController {
         ResponseWrapper<List<AuctionDTO>> wrapper = new ResponseWrapper<>(Instant.now(), HttpStatus.OK, service.findAllAuctions(), null);
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
-
 }
