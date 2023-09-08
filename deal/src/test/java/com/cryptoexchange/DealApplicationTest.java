@@ -2,12 +2,14 @@ package com.cryptoexchange;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
-class DealApplicationTest {
+@Testcontainers
+public class DealApplicationTest {
 
     @Test
-    void main() {
+    void contextLoads() {
     }
 
 }

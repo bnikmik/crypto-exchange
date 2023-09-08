@@ -115,7 +115,6 @@
     <div class="main-menu-label">Создать аукцион</div>
 
     <form action="/auctions/create" class="form-group" method="POST">
-        <input name="Authorization" th:value="${accessToken}" type="hidden"/>
         <label>Выберите тип счета:</label>
         <select class="select-container" id="accountType" name="accountType">
             <option th:each="type : ${T(com.cryptoexchange.common.model.Currency).values()}"

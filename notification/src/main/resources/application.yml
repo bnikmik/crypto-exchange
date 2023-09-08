@@ -6,11 +6,10 @@ spring:
     bootstrap-servers: kafka:29092
     consumer:
       group-id: crypto-exchange
-  #      auto-offset-reset: earliest
   mail:
-    host: smtp-mail.outlook.com
-    port: 587
-    username: crpt-exchange@outlook.com
+    host: smtp.rambler.ru
+    port: 2525
+    username: spring.mail@rambler.ru
     password: 1z2x3c4vMail
     properties:
       mail:

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="staging,production">
+        <!-- Логирование в Logstash JSON формате -->
+        <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>logstash:5000</destination> <!-- Укажите хост и порт Logstash -->
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        </appender>
+
+        <!-- Уровень логирования (может быть INFO, ERROR, DEBUG, и т. д.) -->
+        <root level="INFO">
+            <appender-ref ref="logstash" />
+        </root>
+    </springProfile>
+</configuration>

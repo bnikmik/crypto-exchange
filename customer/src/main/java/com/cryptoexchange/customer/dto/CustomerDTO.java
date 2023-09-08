@@ -15,7 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 public class CustomerDTO {
-    //    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
     @NotBlank(message = "Login не может быть пустым")
     private String login;

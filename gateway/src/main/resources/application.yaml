@@ -20,15 +20,15 @@ spring:
           uri: http://localhost:8084/
           predicates:
             - Path=/auctions/**
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins:
-              - '*'
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders:
-              - Authorization
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowedOrigins:
+#              - '*'
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#            allowedHeaders:
+#              - Authorization

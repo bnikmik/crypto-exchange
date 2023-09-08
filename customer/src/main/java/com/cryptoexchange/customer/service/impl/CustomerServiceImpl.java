@@ -10,6 +10,8 @@ import com.cryptoexchange.customer.repository.CustomerRepository;
 import com.cryptoexchange.customer.service.AccountClientService;
 import com.cryptoexchange.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository repository;
@@ -33,6 +36,8 @@ public class CustomerServiceImpl implements CustomerService {
         AccountDTO accountDTO = accountClientService.createAccount(Currency.BTC, customer.getId());
         customer.getCustomerAccounts().put(accountDTO.getCurrency(), accountDTO.getId());
         repository.save(customer);
+
+        log.info("Пользователь "+ customer.getLogin() + " создан!");
         return INSTANCE.toDTO(customer);
     }
 

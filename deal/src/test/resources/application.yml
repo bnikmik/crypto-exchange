@@ -1,0 +1,31 @@
+crypto-exchange:
+  kafka:
+    request-topic: notification-topic
+spring:
+#  kafka:
+#    bootstrap-servers: kafka:29092
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:deal/liquibase/changelog.xml
+#    default-schema: deal_schema
+#    liquibase-schema: liquibase_schema
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        default_schema: deal_schema
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/crypto-exchange
+#server:
+#  port: 8083
+
