@@ -21,12 +21,12 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/crypto-exchange
-  sleuth:
-    enabled: true
-    sampler:
-      probability: 1.0
-logging:
-  config: classpath:logback-spring.xml
+#  sleuth:
+#    enabled: true
+#    sampler:
+#      probability: 1.0
+#logging:
+#  config: classpath:logback-spring.xml
 
 server:
   port: 8081

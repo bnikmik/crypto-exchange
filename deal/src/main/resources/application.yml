@@ -28,4 +28,13 @@ spring:
           issuer-uri: http://localhost:8080/realms/crypto-exchange
 server:
   port: 8083
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: metrics,health
 

@@ -1,4 +1,6 @@
 spring:
+  sleuth:
+    enabled: true
   liquibase:
     enabled: true
     change-log: classpath:account/liquibase/changelog.xml
@@ -23,3 +25,12 @@ spring:
           issuer-uri: http://localhost:8080/realms/crypto-exchange
 server:
   port: 8082
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: metrics,health

@@ -1,49 +1,57 @@
-version: '3.7'
+version: "3"
 
 services:
+
   elasticsearch:
-    image: elasticsearch:7.16.1
-    volumes:
-      - ./configs/elasticsearch/config.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-      - ./docker_volumes/elasticsearch/data:/usr/share/elasticsearch/data
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
+    container_name: elasticsearch_springboot
     environment:
-      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
-      ELASTIC_USERNAME: "elastic"
-      ELASTIC_PASSWORD: "MyPw123"
-      discovery.type: single-node
-    networks:
-      - elk
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+      - xpack.security.enabled=false
     ports:
       - "9200:9200"
-      - "9300:9300"
-
-  logstash:
-    image: logstash:7.16.2
     volumes:
-      - ./configs/logstash/config.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./configs/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro  # Добавляем собственный конфигурационный файл Logstash
-    environment:
-      LS_JAVA_OPTS: "-Xmx512m -Xms512m"
-    ports:
-      - "5044:5044"
-      - "5000:5000"
-      - "9600:9600"
+      - elasticsearch_data:/usr/share/elasticsearch/data
     networks:
-      - elk
-    depends_on:
-      - elasticsearch
+      - elastic
 
   kibana:
-    image: kibana:7.16.1
-    depends_on:
-      - elasticsearch
-    volumes:
-      - ./configs/kibana/config.yml:/usr/share/kibana/config/kibana.yml:ro
-    networks:
-      - elk
+    image: docker.elastic.co/kibana/kibana:8.3.3
+    container_name: kibana_springboot
     ports:
       - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.3.3
+    container_name: logstash_springboot
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elastic
+    depends_on:
+      - elasticsearch
 
 networks:
-  elk:
+  elastic:
     driver: bridge
+
+volumes:
+  elasticsearch_data:
+    driver: local

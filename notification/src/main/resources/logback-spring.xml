@@ -12,7 +12,7 @@
                 <pattern>
                     <pattern>
                         {
-                        "app": "customer-logs"
+                        "app": "notification-logs"
                         }
                     </pattern>
                 </pattern>

@@ -11,12 +11,12 @@ import com.cryptoexchange.customer.service.AccountClientService;
 import com.cryptoexchange.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
@@ -26,6 +26,7 @@ import static com.cryptoexchange.customer.mapper.CustomerMapper.INSTANCE;
 @AllArgsConstructor
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
+
 
     private final CustomerRepository repository;
     private final AccountClientService accountClientService;

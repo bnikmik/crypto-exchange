@@ -6,7 +6,10 @@ import com.cryptoexchange.account.model.Account;
 import com.cryptoexchange.account.repository.AccountRepository;
 import com.cryptoexchange.account.service.AccountService;
 import com.cryptoexchange.common.exception.types.RecordNotFoundException;
-import lombok.AllArgsConstructor;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,22 +20,35 @@ import java.util.stream.Collectors;
 import static com.cryptoexchange.account.mapper.AccountMapper.INSTANCE;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 @Transactional
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
+    private final Counter methodCallCounter;
+
+    @Autowired
+    public AccountServiceImpl(AccountRepository repository, MeterRegistry meterRegistry) {
+        this.repository = repository;
+        this.methodCallCounter = Counter.builder("account_service_calls_counter")
+                .description("Counter for your method calls")
+                .register(meterRegistry);
+    }
+
 
     @Override
     public AccountDTO createAccount(AccountDTO accountDTO) {
         Account account = INSTANCE.toEntity(accountDTO);
         repository.save(account);
+        methodCallCounter.increment();
         return INSTANCE.toDTO(account);
     }
 
     @Override
     @Transactional(readOnly = true)
     public AccountDTO findAccountById(UUID id) {
+        log.info("Идет поиск счета!!!");
         Account account = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Счет с ID " + id + " не найден"));
         return INSTANCE.toDTO(account);
     }
