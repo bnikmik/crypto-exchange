@@ -30,7 +30,15 @@ management:
     health:
       probes:
         enabled: true
+      show-details: always
   endpoints:
     web:
       exposure:
-        include: metrics,health
+        include: metrics,health,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
